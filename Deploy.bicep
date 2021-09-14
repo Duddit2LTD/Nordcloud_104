@@ -4,14 +4,27 @@ param TAGS object
 
 var location = (resourceGroup().location)
 
-resource vnets 'Microsoft.Network/virtualNetworks@2021-02-01' =  {
-  name: '${prefix}-${vnetprefix}-${location}'
-  location: location
+
+var VNETS = [
+  {
+    name:'${prefix}-${vnetprefix}'
+    Location:''
+    AddressSpace: ''
+    SN01Name: ''
+    SN01AddressSpace: ''
+    SN02Name: ''
+    SN02AddressSpace: ''
+  }
+]
+
+resource vnets 'Microsoft.Network/virtualNetworks@2021-02-01' =  [for Vnet in VNETS: {
+  name: Vnet.name
+  location: Vnet.Location
   tags: TAGS
   properties: {
     addressSpace: {
       addressPrefixes:[
-        '10.1.0.0/16'
+        Vnet.AddressSpace
       ]
     }
     dhcpOptions: {
@@ -21,9 +34,9 @@ resource vnets 'Microsoft.Network/virtualNetworks@2021-02-01' =  {
     }
     subnets: [
       {
-        name: 'SN1'
+        name: Vnet.SN01Name
         properties: {
-          addressPrefix: '10.1.0.0/24'
+          addressPrefix: Vnet.SN01AddressSpace
           serviceEndpoints: [
             {
               service: 'microsoft.sql'
@@ -48,5 +61,5 @@ resource vnets 'Microsoft.Network/virtualNetworks@2021-02-01' =  {
       }
     ]
   }
-  
-}
+
+}]
