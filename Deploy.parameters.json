@@ -15,7 +15,26 @@
                 "Lab Name": "1",
                 "Lab Date": "10/09/2021"
             }
+        },
+        "location":{
+            "value": "uksouth"
+        },
+        "SN01Name":{
+            "value": "Subnet01"
+        },
+        "SN02Name":{
+            "value": "Subnet02"
+        },
+        "HubVNetNAme":{
+            "value": "CentralVNet"
+        },
+        "hubVNetAddressSpace":{
+            "value": "10.100.0.0/16"
+        },
+        "AZureFirewallSubnetAddressSpace":{
+            "value": "10.100.100.0/24"
         }
+
     }
 
 }
