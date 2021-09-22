@@ -1,27 +1,26 @@
-param vmname string = 'PerfectVM-dev'
-param adminusername string = 'perfectadmin'
-//param authenticationtype string
+param sub string
+param RG string
+param vmname string = 'perfectvm005'
+param adminusername string
 param location string 
-param adminpasswordorkey string = 'vdfvfefe34324'
-param dnslabelprefix string
-param ubuntuOSVersion string
+@secure()
+param adminpasswordorkey string
 param VMSize string = 'Standard_DS2_v2'
-param location string
-param virtualnetworkname string = 'PerfectVM-Networks'
-param subnetname string = 'PErfectVM-Dev'
-//param networksecuritygroupname string
+param virtualnetworkname string
+param subnetname string
+param imagegalleryname string
+param imagename string
 
-
-var publicipaddressname = 'perfectpip'
-var networkinterfacename = 'nic01'
+var imageid = '/subscriptions/${sub}/resourceGroups/${RG}/providers/Microsoft.Compute/galleries/${imagegalleryname}/images/${imagename}/versions/1.0.0'
+var publicipaddressname = '${vmname}-PIP'
+var networkinterfacename = '${vmname}-NIC01'
+var dnslabelprefix = '${vmname}dns'
 var subnetref = '${vnet.id}/subnets/${subnetname}'
 var OSDiskType = 'StandardSSD_LRS'
 
 resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' existing = {
   name: virtualnetworkname
-  
 }
-
 
 resource PIP 'Microsoft.Network/publicIPAddresses@2021-02-01' = {
   name: publicipaddressname
@@ -30,7 +29,6 @@ resource PIP 'Microsoft.Network/publicIPAddresses@2021-02-01' = {
     name: 'Basic'
     tier: 'Regional'
   }
-
   properties: {
     publicIPAllocationMethod: 'Dynamic'
     publicIPAddressVersion: 'IPv4'
@@ -40,7 +38,6 @@ resource PIP 'Microsoft.Network/publicIPAddresses@2021-02-01' = {
     idleTimeoutInMinutes: 4
   }
 }
-
 
 resource Nic 'Microsoft.Network/networkInterfaces@2021-02-01' = {
   name: networkinterfacename
@@ -68,13 +65,9 @@ resource Nic 'Microsoft.Network/networkInterfaces@2021-02-01' = {
 resource perfectVM 'Microsoft.Compute/virtualMachines@2021-04-01' = {
   name: vmname
   location: location
-  dependsOn: [
-    PIP
-  ]
   properties: {
     hardwareProfile: {
       vmSize: VMSize
-
     }
     networkProfile: {
       networkInterfaces: [
@@ -83,7 +76,6 @@ resource perfectVM 'Microsoft.Compute/virtualMachines@2021-04-01' = {
         }
       ]
     }
-
     storageProfile: {
       osDisk: {
         createOption: 'FromImage'
@@ -92,10 +84,7 @@ resource perfectVM 'Microsoft.Compute/virtualMachines@2021-04-01' = {
         }
       }
       imageReference: {
-        publisher: 'canonical'
-        offer: 'UbuntuServer'
-        sku: ubuntuOSVersion
-        version: 'latest'
+        id: imageid
       }
     }
     osProfile: {
@@ -107,7 +96,6 @@ resource perfectVM 'Microsoft.Compute/virtualMachines@2021-04-01' = {
           assessmentMode: 'ImageDefault'
           patchMode: 'ImageDefault'
         }
-
       }
     }
   }

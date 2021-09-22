@@ -2,18 +2,20 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "sub":{
+      "value": "cc7e70a8-0b91-4c9a-a723-b852b148ba38"
+    },
+    "RG":{
+      "value": "PerfectVM-Network"
+    },
     "adminUsername": {
-      "value": "GEN-UNIQUE"
+      "value": "perfectadmin"
     },
-    "adminPasswordOrKey": {
-      "value": "GEN-PASSWORD"
-    },
+    
     "location": {
         "value": "northeurope"
     },
-    "dnsLabelPrefix": {
-      "value": "GEN-UNIQUE"
-    },
+    
     "adminpasswordorkey": {
       "reference": { 
         "keyVault": {
@@ -22,6 +24,18 @@
         "secretName": "adminpassword"
       }
       
+    },
+    "subnetName": {
+        "value": "PerfectVM-Dev"
+    },
+    "virtualNetworkName": {
+        "value": "PerfectVM-Networks"
+    },
+    "Imagegalleryname": {
+      "value": "PerfectImageGallery"
+    },
+    "imagename": {
+      "value": "version1"
     }
   }
 }
