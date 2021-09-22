@@ -12,8 +12,8 @@
             
             "value": {
                 "DeleteResource": "YES",
-                "Lab Name": "1",
-                "Lab Date": "10/09/2021"
+                "Lab Name": "az104-09a-rg1",
+                "Lab Date": "14/09/2021"
             }
         },
         "location":{

@@ -18,4 +18,7 @@ New-AzResourceGroup -Name "LAB_RG_01" -Location uksouth
 
 New-AzResourceGroupDeployment -TemplateFile '.\Deploy.bicep' -ResourceGroupName 'LAB_RG_01' -name deployvnets
 
+New-AzResourceGroup -Name "az104-09a-rg1" -Location uksouth 
+
+
 
