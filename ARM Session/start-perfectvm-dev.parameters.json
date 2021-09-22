@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "sub":{
+      "value": "cc7e70a8-0b91-4c9a-a723-b852b148ba38"
+    },
+    "RG":{
+      "value": "PerfectVM-Network"
+    },
+    "adminUsername": {
+      "value": "perfectadmin"
+    },
+    
+    "location": {
+        "value": "northeurope"
+    },
+    
+    "adminpasswordorkey": {
+      "reference": { 
+        "keyVault": {
+          "id": "/subscriptions/cc7e70a8-0b91-4c9a-a723-b852b148ba38/resourceGroups/PerfectVM-Lab/providers/Microsoft.KeyVault/vaults/PerfectVM-Keyvault"
+        },
+        "secretName": "adminpassword"
+      }
+      
+    },
+    "subnetName": {
+        "value": "PerfectVM-Dev"
+    },
+    "virtualNetworkName": {
+        "value": "PerfectVM-Networks"
+    },
+    "Imagegalleryname": {
+      "value": "PerfectImageGallery"
+    },
+    "imagename": {
+      "value": "version1"
+    },
+    "Imageversion":{
+      "value": "1.0.0"
+    }
+  }
+}
