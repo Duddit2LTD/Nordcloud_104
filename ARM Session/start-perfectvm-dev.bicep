@@ -10,8 +10,9 @@ param virtualnetworkname string
 param subnetname string
 param imagegalleryname string
 param imagename string
+param imageversion string
 
-var imageid = '/subscriptions/${sub}/resourceGroups/${RG}/providers/Microsoft.Compute/galleries/${imagegalleryname}/images/${imagename}/versions/1.0.0'
+var imageid = '/subscriptions/${sub}/resourceGroups/${RG}/providers/Microsoft.Compute/galleries/${imagegalleryname}/images/${imagename}/versions/${imageversion}'
 var publicipaddressname = '${vmname}-PIP'
 var networkinterfacename = '${vmname}-NIC01'
 var dnslabelprefix = '${vmname}dns'
