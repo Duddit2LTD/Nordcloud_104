@@ -18,6 +18,8 @@
     MS documentation for linked and nested templates
 
     https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/linked-templates?tabs=azure-powershell
-    
+
     To get the following URI go to github, browse to the file and select the 'RAW' option
     https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/5325c572222be39681f72f38d538256f6428ec47/HeroVoting/Artifacts/Storage.json
+
+    https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Storage.json
