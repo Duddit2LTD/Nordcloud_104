@@ -47,6 +47,9 @@
     },
     "SN-BE-Bastion": {
       "type": "string"
+    },
+    "StorageAccountName": {
+      "type": "string"
     }
   },
   "functions": [],
@@ -144,6 +147,9 @@
         "parameters": {
           "location": {
             "value": "[parameters('location')]"
+          },
+          "StorageAccountName": {
+            "value": "[parameters('StorageAccountName')]"
           }
         }
       }
