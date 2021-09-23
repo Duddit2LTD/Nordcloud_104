@@ -7,6 +7,9 @@
         },
         "StorageAccountName": {
             "type": "string"
+        },
+        "prefix": {
+            "type": "string"
         }
     },
     "functions": [],

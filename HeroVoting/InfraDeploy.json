@@ -20,36 +20,6 @@
     },
     "prefix": {
       "type": "string"
-    },
-    "ExternalDNS": {
-      "type": "string"
-    },
-    "FE_VNET_IP_Range": {
-      "type": "string"
-    },
-    "BE_VNET_IP_Range": {
-      "type": "string"
-    },
-    "SN_FE_AppGW_Range": {
-      "type": "string"
-    },
-    "SN_FE_PL_Range": {
-      "type": "string"
-    },
-    "SN_BE_ASP_VNINT_Range": {
-      "type": "string"
-    },
-    "SN_BE_APIVMSS_Range": {
-      "type": "string"
-    },
-    "SN_BE_DB_Range": {
-      "type": "string"
-    },
-    "SN-BE-Bastion": {
-      "type": "string"
-    },
-    "StorageAccountName": {
-      "type": "string"
     }
   },
   "functions": [],
@@ -77,12 +47,15 @@
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Storage.json",
           "contentVersion": "1.0.0.0"
         },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Storage.parameters.json"
+        },
         "parameters": {
           "location": {
             "value": "[parameters('location')]"
           },
-          "StorageAccountName": {
-            "value": "[parameters('StorageAccountName')]"
+          "prefix": {
+            "value": "[parameters('prefix')]"
           }
         }
       }
@@ -100,6 +73,14 @@
         "parametersLink": {
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Network.parameters.json",
           "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "prefix": {
+            "value": "[parameters('prefix')]"
+          }
         }
       }
     }
