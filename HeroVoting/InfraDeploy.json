@@ -122,7 +122,7 @@
               }
             },
             {
-              "name": "Subnet-BE-Bastion",
+              "name": "AzureBastionSubnet",
               "properties": {
                 "addressPrefix": "[parameters('SN-BE-Bastion')]"
               }
@@ -130,6 +130,23 @@
 
           ]
         }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "Storage",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/5325c572222be39681f72f38d538256f6428ec47/HeroVoting/Artifacts/Storage.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          }
+        }
+      }
     }
     
   ]
