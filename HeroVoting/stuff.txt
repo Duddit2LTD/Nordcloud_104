@@ -9,3 +9,7 @@
     "ContainerRegName": "[format('{0}-ContReg-{1}', parameters('prefix'), parameters('location'))]",
     "KeyVaultName": "[format('{0}-KV-{1}', parameters('prefix'), parameters('location'))]",
     "RouteTableName": "[format('{0}-RT-BELB-{1}', parameters('prefix'), parameters('location'))]"
+
+
+
+    rg-team-5-sep-case-arm-we

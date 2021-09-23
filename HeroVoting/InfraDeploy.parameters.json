@@ -6,7 +6,7 @@
           "value": "6c93e868-e85e-45c5-9a6c-ea366a538529"
       },
       "RG":{
-          "value": "rg-team-5-sep-case-we"
+          "value": "rg-team-5-sep-case-arm-we"
       },
       "location":{
           "value": "northeurope"
@@ -37,6 +37,9 @@
       },
       "SN_BE_DB_Range":{
           "value": "10.0.3.0/24"
+      },
+      "SN-BE-Bastion":{
+          "value": "10.0.4.0/24"
       }
 
     }
