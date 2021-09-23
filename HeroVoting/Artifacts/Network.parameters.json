@@ -6,7 +6,7 @@
           "value": "csuk"
       },
       "location":{
-          "value": "uksouth"
+          "value": "northeurope"
       },
       "FE_VNET_IP_Range":{
           "value": "172.16.0.0/16"
