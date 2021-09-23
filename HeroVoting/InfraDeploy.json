@@ -66,74 +66,7 @@
     "RouteTableName": "[concat(parameters('prefix'),'-RT-BELB-',parameters('location'))]"
   },
   "resources": [
-    {
-      "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2020-11-01",
-      "name": "[variables('VNETNameFE')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-           "addressPrefixes": [
-             "[parameters('FE_VNET_IP_Range')]"
-           ]
-        },
-        "subnets": [
-           {
-             "name": "Subnet-AppGW",
-             "properties": {
-               "addressPrefix": "[parameters('SN_FE_AppGW_Range')]"
-              }
-           },
-           {
-             "name": "Subnet-PL",
-             "properties": {
-               "addressPrefix": "[parameters('SN_FE_PL_Range')]"
-              }
-           }
-        ]
-      }
-    },
     
-    {
-        "type": "Microsoft.Network/virtualNetworks",
-        "apiVersion": "2020-11-01",
-        "name": "[variables('VNETNameBE')]",
-        "location": "[parameters('location')]",
-        "properties": {
-          "addressSpace": {
-              "addressPrefixes": [
-                "[parameters('BE_VNET_IP_Range')]"
-              ]
-          },
-          "subnets": [
-            {
-              "name": "Subnet-BE_ASP_VNINT",
-              "properties": {
-                "addressPrefix": "[parameters('SN_BE_ASP_VNINT_Range')]"
-              }
-            },
-            {
-              "name": "Subnet-BE_DB",
-              "properties": {
-                "addressPrefix": "[parameters('SN_BE_DB_Range')]"
-              }
-            },
-            {
-              "name": "Subnet-BE_APIVMSS",
-              "properties": {
-                "addressPrefix": "[parameters('SN_BE_APIVMSS_Range')]"
-              }
-            },
-            {
-              "name": "AzureBastionSubnet",
-              "properties": {
-                "addressPrefix": "[parameters('SN-BE-Bastion')]"
-              }
-            }
-
-          ]
-        }
-    },
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
