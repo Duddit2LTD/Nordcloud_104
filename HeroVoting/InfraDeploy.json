@@ -44,11 +44,15 @@
     },
     "SN_BE_DB_Range": {
       "type": "string"
+    },
+    "SN-BE-Bastion": {
+      "type": "string"
     }
   },
   "functions": [],
   "variables": {
-    "VNETName": "[concat(parameters('prefix'),'-VNET-',parameters('location'))]",
+    "VNETNameFE": "[concat(parameters('prefix'),'-VNET-FE-',parameters('location'))]",
+    "VNETNameBE": "[concat(parameters('prefix'),'-VNET-BE-',parameters('location'))]",
     "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
     "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
     "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
@@ -58,5 +62,80 @@
     "KeyVaultName": "[concat(parameters('prefix'),'-KV-',parameters('location'))]",
     "RouteTableName": "[concat(parameters('prefix'),'-RT-BELB-',parameters('location'))]"
   },
-  "resources": []
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-11-01",
+      "name": "[variables('VNETNameFE')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+           "addressPrefixes": [
+             "[parameters('FE_VNET_IP_Range')]"
+           ]
+        },
+        "subnets": [
+           {
+             "name": "Subnet-AppGW",
+             "properties": {
+               "addressPrefix": "[parameters('SN_FE_AppGW_Range')]"
+               
+
+             }
+            
+           },
+           {
+             "name": "Subnet-PL",
+             "properties": {
+               "addressPrefix": "[parameters('SN_FE_PL_Range')]"
+             }
+           }
+        ]
+
+      }
+       
+    },
+    
+    {
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2020-11-01",
+        "name": "[variables('VNETNameBE')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+              "addressPrefixes": [
+                "[parameters('BE_VNET_IP_Range')]"
+              ]
+          },
+          "subnets": [
+            {
+              "name": "Subnet-BE_ASP_VNINT",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_ASP_VNINT_Range')]"
+              }
+            },
+            {
+              "name": "Subnet-BE_DB",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_DB_Range')]"
+              }
+            },
+            {
+              "name": "Subnet-BE_APIVMSS",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_APIVMSS_Range')]"
+              }
+            },
+            {
+              "name": "Subnet-BE-Bastion",
+              "properties": {
+                "addressPrefix": "[parameters('SN-BE-Bastion')]"
+              }
+            }
+
+          ]
+        }
+    }
+    
+  ]
 }
