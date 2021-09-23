@@ -1,9 +1,112 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
-    "parameters": {},
+    "parameters": {
+        "prefix": {
+            "type": "string"
+        },
+        "Location": {
+            "type": "string"
+        },
+        "FE_VNET_IP_Range": {
+            "type": "string"
+        },
+        "SN_FE_AppGW_Range": {
+            "type": "string"
+        },
+        "SN_FE_PL_Range": {
+            "type": "string"
+        },
+        "BE_VNET_IP_Range": {
+            "type": "string"
+        },
+        "SN_BE_ASP_VNINT_Range": {
+            "type": "string"
+        },
+        "SN_BE_DB_Range": {
+            "type": "string"
+        },
+        "SN_BE_APIVMSS_Range": {
+            "type": "string"
+        },
+        "SN-BE-Bastion": {
+            "type": "string"
+        }
+    },
     "functions": [],
-    "variables": {},
-    "resources": [],
+    "variables": {
+        "VNETNameFE": "[concat(parameters('prefix'),'-VNET-FE-',parameters('location'))]",
+        "VNETNameBE": "[concat(parameters('prefix'),'-VNET-BE-',parameters('location'))]"
+    },
+    "resources": [
+        {
+      "type": "Microsoft.Network/virtualNetworks",
+      "apiVersion": "2020-11-01",
+      "name": "[variables('VNETNameFE')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+           "addressPrefixes": [
+             "[parameters('FE_VNET_IP_Range')]"
+           ]
+        },
+        "subnets": [
+           {
+             "name": "Subnet-AppGW",
+             "properties": {
+               "addressPrefix": "[parameters('SN_FE_AppGW_Range')]"
+              }
+           },
+           {
+             "name": "Subnet-PL",
+             "properties": {
+               "addressPrefix": "[parameters('SN_FE_PL_Range')]"
+              }
+           }
+        ]
+      }
+    },
+    
+    {
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2020-11-01",
+        "name": "[variables('VNETNameBE')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+              "addressPrefixes": [
+                "[parameters('BE_VNET_IP_Range')]"
+              ]
+          },
+          "subnets": [
+            {
+              "name": "Subnet-BE_ASP_VNINT",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_ASP_VNINT_Range')]"
+              }
+            },
+            {
+              "name": "Subnet-BE_DB",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_DB_Range')]"
+              }
+            },
+            {
+              "name": "Subnet-BE_APIVMSS",
+              "properties": {
+                "addressPrefix": "[parameters('SN_BE_APIVMSS_Range')]"
+              }
+            },
+            {
+              "name": "AzureBastionSubnet",
+              "properties": {
+                "addressPrefix": "[parameters('SN-BE-Bastion')]"
+              }
+            }
+
+          ]
+        }
+    }
+    ],
     "outputs": {}
 }
