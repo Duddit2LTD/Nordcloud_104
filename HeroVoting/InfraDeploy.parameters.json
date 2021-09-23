@@ -40,6 +40,9 @@
       },
       "SN-BE-Bastion":{
           "value": "10.0.4.0/24"
+      },
+      "StorageAccountName":{
+          "value": "storage8978uihibhbjdfv"
       }
 
     }
