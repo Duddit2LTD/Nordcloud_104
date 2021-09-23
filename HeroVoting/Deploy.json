@@ -39,14 +39,6 @@
         },
         "parametersLink": {
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Storage.parameters.json"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "prefix": {
-            "value": "[parameters('prefix')]"
-          }
         }
       }
     },
@@ -63,14 +55,6 @@
         "parametersLink": {
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Network.parameters.json",
           "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "prefix": {
-            "value": "[parameters('prefix')]"
-          }
         }
       }
     }
