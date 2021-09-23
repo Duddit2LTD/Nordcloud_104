@@ -79,21 +79,16 @@
              "name": "Subnet-AppGW",
              "properties": {
                "addressPrefix": "[parameters('SN_FE_AppGW_Range')]"
-               
-
-             }
-            
+              }
            },
            {
              "name": "Subnet-PL",
              "properties": {
                "addressPrefix": "[parameters('SN_FE_PL_Range')]"
-             }
+              }
            }
         ]
-
       }
-       
     },
     
     {
