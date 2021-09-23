@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "prefix":{
+          "value": "csuk"
+      },
+      "location":{
+          "value": "uksouth"
+      },
+      "FE_VNET_IP_Range":{
+          "value": "172.16.0.0/16"
+      },
+      "BE_VNET_IP_Range":{
+          "value": "10.0.0.0/16"
+      },
+      "SN_FE_AppGW_Range":{
+          "value": "172.16.1.0/24"
+      },
+      "SN_FE_PL_Range":{
+          "value": "172.16.2.0/27"
+      },
+      "SN_BE_ASP_VNINT_Range":{
+          "value": "10.0.1.0/27"
+      },
+      "SN_BE_APIVMSS_Range":{
+          "value": "10.0.2.0/24"
+      },
+      "SN_BE_DB_Range":{
+          "value": "10.0.3.0/24"
+      },
+      "SN-BE-Bastion":{
+          "value": "10.0.4.0/24"
+      }
+    }
+  }
