@@ -4,5 +4,12 @@
     "parameters": {
       "StorageAccountName": {
           "value": "storage01"
+      },
+      "prefix": {
+          "value": "csuk" 
+      },
+      "location": {
+          "value": "northeurope" 
       }
+    }
   }

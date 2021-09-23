@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "sub":{
+          "value": "6c93e868-e85e-45c5-9a6c-ea366a538529"
+      },
+      "RG":{
+          "value": "rg-team-5-sep-case-arm-we"
+      },
+      "location":{
+          "value": "northeurope"
+      },
+      "prefix":{
+          "value": "csuk"
+      }
+    }
+  }
