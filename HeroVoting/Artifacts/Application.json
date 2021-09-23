@@ -10,7 +10,12 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
+        "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
+        "VMSSNAme": "[concat(parameters('prefix'),'-APIvmss-',parameters('location'))]",
+        "DBServerName": "[concat(parameters('prefix'),'-DBServ-',parameters('location'))]"
+    },
     "resources": [],
     "outputs": {}
 }

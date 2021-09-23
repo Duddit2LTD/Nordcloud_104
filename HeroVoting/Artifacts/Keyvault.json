@@ -10,7 +10,9 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "KeyVaultName": "[concat(parameters('prefix'),'-KV-',parameters('location'))]"
+    },
     "resources": [],
     "outputs": {}
 }

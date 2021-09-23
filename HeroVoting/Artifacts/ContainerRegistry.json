@@ -10,7 +10,9 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "ContainerRegName": "[concat(parameters('prefix'),'-ContReg-',parameters('location'))]"
+    },
     "resources": [],
     "outputs": {}
 }

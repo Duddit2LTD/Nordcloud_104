@@ -10,7 +10,9 @@
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+        "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]"
+    },
     "resources": [],
     "outputs": {}
 }

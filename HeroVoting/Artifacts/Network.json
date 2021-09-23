@@ -36,7 +36,8 @@
     "functions": [],
     "variables": {
         "VNETNameFE": "[concat(parameters('prefix'),'-VNET-FE-',parameters('location'))]",
-        "VNETNameBE": "[concat(parameters('prefix'),'-VNET-BE-',parameters('location'))]"
+        "VNETNameBE": "[concat(parameters('prefix'),'-VNET-BE-',parameters('location'))]",
+        "RouteTableName": "[concat(parameters('prefix'),'-RT-BELB-',parameters('location'))]"
     },
     "resources": [
         {

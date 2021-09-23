@@ -24,16 +24,6 @@
   },
   "functions": [],
   "variables": {
-    "VNETNameFE": "[concat(parameters('prefix'),'-VNET-FE-',parameters('location'))]",
-    "VNETNameBE": "[concat(parameters('prefix'),'-VNET-BE-',parameters('location'))]",
-    "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
-    "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
-    "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
-    "DBServerName": "[concat(parameters('prefix'),'-DBServ-',parameters('location'))]",
-    "VMSSNAme": "[concat(parameters('prefix'),'-APIvmss-',parameters('location'))]",
-    "ContainerRegName": "[concat(parameters('prefix'),'-ContReg-',parameters('location'))]",
-    "KeyVaultName": "[concat(parameters('prefix'),'-KV-',parameters('location'))]",
-    "RouteTableName": "[concat(parameters('prefix'),'-RT-BELB-',parameters('location'))]"
   },
   "resources": [
     
