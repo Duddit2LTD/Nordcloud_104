@@ -1,0 +1,11 @@
+
+
+    "VNETName": "[format('{0}-VNET-{1}', parameters('prefix'), parameters('location'))]",
+    "AppGWName": "[format('{0}-AppGW-{1}', parameters('prefix'), parameters('location'))]",
+    "AppSVCName": "[format('{0}-AppSVC-{1}', parameters('prefix'), parameters('location'))]",
+    "AppSVCPlanNAme": "[format('{0}-Plan', variables('AppSVCName'))]",
+    "DBServerName": "[format('{0}-DBServ-{1}', parameters('prefix'), parameters('location'))]",
+    "VMSSNAme": "[format('{0}-APIvmss-{1}', parameters('prefix'), parameters('location'))]",
+    "ContainerRegName": "[format('{0}-ContReg-{1}', parameters('prefix'), parameters('location'))]",
+    "KeyVaultName": "[format('{0}-KV-{1}', parameters('prefix'), parameters('location'))]",
+    "RouteTableName": "[format('{0}-RT-BELB-{1}', parameters('prefix'), parameters('location'))]"

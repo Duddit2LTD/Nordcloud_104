@@ -1,9 +1,62 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters" : {
-
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.4.613.9944",
+      "templateHash": "14223184546922393589"
     }
-    
-    
-  } 
+  },
+  "parameters": {
+    "sub": {
+      "type": "string"
+    },
+    "RG": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "prefix": {
+      "type": "string"
+    },
+    "ExternalDNS": {
+      "type": "string"
+    },
+    "FE_VNET_IP_Range": {
+      "type": "string"
+    },
+    "BE_VNET_IP_Range": {
+      "type": "string"
+    },
+    "SN_FE_AppGW_Range": {
+      "type": "string"
+    },
+    "SN_FE_PL_Range": {
+      "type": "string"
+    },
+    "SN_BE_ASP_VNINT_Range": {
+      "type": "string"
+    },
+    "SN_BE_APIVMSS_Range": {
+      "type": "string"
+    },
+    "SN_BE_DB_Range": {
+      "type": "string"
+    }
+  },
+  "functions": [],
+  "variables": {
+    "VNETName": "[concat(parameters('prefix'),'-VNET-',parameters('location'))]",
+    "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
+    "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
+    "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
+    "DBServerName": "[concat(parameters('prefix'),'-DBServ-',parameters('location'))]",
+    "VMSSNAme": "[concat(parameters('prefix'),'-APIvmss-',parameters('location'))]",
+    "ContainerRegName": "[concat(parameters('prefix'),'-ContReg-',parameters('location'))]",
+    "KeyVaultName": "[concat(parameters('prefix'),'-KV-',parameters('location'))]",
+    "RouteTableName": "[concat(parameters('prefix'),'-RT-BELB-',parameters('location'))]"
+  },
+  "resources": []
+}
