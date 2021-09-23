@@ -86,7 +86,22 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "Network",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "",
+          "contentVersion": ""
+        }
+      }
     }
-    
   ]
 }
