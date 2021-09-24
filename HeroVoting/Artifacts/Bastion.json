@@ -7,10 +7,18 @@
         },
         "prefix": {
             "type": "string"
+        },
+        "baspip": {
+            "type": "string"
+        },
+        "vnet": {
+            "type": "string"
         }
     },
     "functions": [],
-    "variables": {},
+    "variables": {
+
+    },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
@@ -26,6 +34,31 @@
                 "publicIPAllocationMethod": "Static",
                 "idleTimeoutInMinutes": 4,
                 "ipTags": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/bastionHosts",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('prefix'),'-bas-',parameters('location'))]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Basic"
+            },
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "IpConf",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('baspip')]"
+                            },
+                            "subnet": {
+                                "id": "[concat(parameters('vnet'), '/subnets/AzureBastionSubnet')]"
+                            }
+                        }
+                    }
+                ]
             }
         }
     ],

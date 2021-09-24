@@ -3,9 +3,9 @@ $loc = 'northeurope'
 $template = 'G:\My Drive\Repos\Nordcloud_104\HeroVoting\Deploy.json'
 $params = 'G:\My Drive\Repos\Nordcloud_104\HeroVoting\Deploy.parameters.json'
 
-New-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
-
 New-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params
+
+New-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
 
 Test-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params
 
