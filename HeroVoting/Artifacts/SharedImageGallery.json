@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-                "location": {
+        "location": {
             "type": "string"
         },
         "prefix": {
@@ -11,6 +11,14 @@
     },
     "functions": [],
     "variables": {},
-    "resources": [],
+    "resources": [
+        {
+            "type": "Microsoft.Compute/galleries",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('prefix'),'_imggal_',parameters('location'))]",
+            "location": "[parameters('location')]",
+            "properties": {}
+        }
+    ],
     "outputs": {}
 }
