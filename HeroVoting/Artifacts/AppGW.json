@@ -9,17 +9,20 @@
             "type": "string"
         },
         "vnet": {
-                "type": "string"
+            "type": "string"
         },
         "appgwpip": {
-                    "type": "string"
+            "type": "string"
+        },
+        "AppGW_Subnet": {
+            "type": "string"
         }
 
     },
     "functions": [],
     "variables": {
         "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
-        "subnet": "[concat(parameters('vnet'),'subnets/Subnet-AppGW')]",
+        "subnet": "[concat(parameters('vnet'),'subnets/',parameters('AppGW_Subnet'))]",
         "appgwpipid": "[concat(parameters('appgwpip'),parameters('prefix'),'-appgw-pip-',parameters('location'))]",
         "AppGWPipName": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]"
     },
