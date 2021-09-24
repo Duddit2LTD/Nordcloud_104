@@ -20,13 +20,14 @@
     "variables": {
         "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
         "subnet": "[concat(parameters('vnet'),'subnets/Subnet-AppGW')]",
-        "appgwpipid": "[concat(parameters('appgwpip'),parameters('prefix'),'-appgw-pip-',parameters('location'))]"
+        "appgwpipid": "[concat(parameters('appgwpip'),parameters('prefix'),'-appgw-pip-',parameters('location'))]",
+        "AppGWPipName": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]"
     },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
             "apiVersion": "2020-11-01",
-            "name": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]",
+            "name": "[variables('AppGWPipName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "Standard",
@@ -107,7 +108,7 @@
                             "pickHostNameFromBackendAddress": true,
                             "requestTimeout": 20,
                             "probe": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/probes/http24334194-9834-4d8c-9299-cf5de536b0a5')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/probes/http24334194-9834-4d8c-9299-cf5de536b0a5')]"
                             }
                         }
                     }
@@ -117,10 +118,10 @@
                         "name": "http-listener",
                         "properties": {
                             "frontendIPConfiguration": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/frontendIPConfigurations/appGwPublicFrontendIp')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/frontendIPConfigurations/appGwPublicFrontendIp')]"
                             },
                             "frontendPort": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/frontendPorts/port_80')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/frontendPorts/port_80')]"
                             },
                             "protocol": "Http",
                             "hostNames": [],
@@ -135,13 +136,13 @@
                         "properties": {
                             "ruleType": "Basic",
                             "httpListener": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/httpListeners/http-listener')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/httpListeners/http-listener')]"
                             },
                             "backendAddressPool": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/backendAddressPools/be01-as')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/backendAddressPools/be01-as')]"
                             },
                             "backendHttpSettings": {
-                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateways_csuk_appgw_weurope_01_name')), '/backendHttpSettingsCollection/http')]"
+                                "id": "[concat(resourceId('Microsoft.Network/applicationGateways', variables('AppGWName')), '/backendHttpSettingsCollection/http')]"
                             }
                         }
                     }
@@ -180,6 +181,8 @@
                     "minCapacity": 0,
                     "maxCapacity": 2
                 }
+            }
+        }
     ],
 
     "outputs": {}
