@@ -15,7 +15,7 @@
         {
             "type": "Microsoft.Compute/galleries",
             "apiVersion": "2020-09-30",
-            "name": "[concat(parameters('prefix'), '_imggal_',parameters('location'))]",
+            "name": "[concat(parameters('prefix'),'_imggal_',parameters('location'))]",
             "location": "[parameters('location')]",
             "properties": {}
         }
