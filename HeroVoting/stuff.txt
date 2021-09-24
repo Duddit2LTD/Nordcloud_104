@@ -23,3 +23,38 @@
     https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/5325c572222be39681f72f38d538256f6428ec47/HeroVoting/Artifacts/Storage.json
 
     https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Storage.json
+
+
+    {
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "solutions_VMInsights_csuk_logs_weurope__name": {
+            "defaultValue": "VMInsights(csuk-logs-weurope)",
+            "type": "String"
+        },
+        "workspaces_csuk_logs_weurope_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.OperationalInsights/workspaces/csuk-logs-weurope",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.OperationsManagement/solutions",
+            "apiVersion": "2015-11-01-preview",
+            "name": "[parameters('solutions_VMInsights_csuk_logs_weurope__name')]",
+            "location": "West Europe",
+            "plan": {
+                "name": "VMInsights(csuk-logs-weurope)",
+                "promotionCode": "",
+                "product": "OMSGallery/VMInsights",
+                "publisher": "Microsoft"
+            },
+            "properties": {
+                "workspaceResourceId": "[parameters('workspaces_csuk_logs_weurope_externalid')]",
+                "containedResources": []
+            }
+        }
+    ]
+}
