@@ -20,7 +20,7 @@
     },
     "functions": [],
     "variables": {
-        "LBName": "[concat(parameters('prefix'),'api_lb',parameters('location'))]",
+        "LBName": "[concat(parameters('prefix'),'_api_lb_',parameters('location'))]",
         "SubnetString": "[concat(parameters('BEVnet'),'/subnets/',parameters('SubnetName'))]"
     },
     "resources": [
@@ -105,27 +105,8 @@
                 "inboundNatPools": []
             }
 
-        },
-        {
-            "type": "Microsoft.Network/loadBalancers/backendAddressPools",
-            "apiVersion": "2020-11-01",
-            "name": "[concat(variables('LBName'), '/csuk-vmss-api-02')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/loadBalancers', variables('LBName'))]"
-            ],
-            "properties": {
-                "loadBalancerBackendAddresses": [
-                    {
-                        "name": "a9e4e9a7-54ae-4ddd-ab6e-fbe4219a0057",
-                        "properties": {}
-                    },
-                    {
-                        "name": "cf6d9727-1ee1-42f8-ab44-6e1612df27d4",
-                        "properties": {}
-                    }
-                ]
-            }
         }
+        
     ]
    
 }

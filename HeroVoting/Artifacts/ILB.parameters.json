@@ -15,7 +15,7 @@
       "value":"/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/virtualNetworks/csuk-VNET-BE-northeurope"
     },
     "SubnetName": {
-        "value": "CSUK-Subnet-API"
+        "value": "Subnet-BE_APIVMSS"
     }
   }
   }
