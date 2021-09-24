@@ -57,6 +57,25 @@
           "contentVersion": "1.0.0.0"
         }
       }
+    },
+        {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "LogAnalytics",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Storage')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/LogAnalytics.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/LogAnalytics.parameters.json",
+          "contentVersion": "1.0.0.0"
+        }
+      }
     }
   ]
 }
