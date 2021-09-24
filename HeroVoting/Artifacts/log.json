@@ -1,0 +1,78 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaces_csuk_logs_weurope_name": {
+            "defaultValue": "csuk-logs-weurope",
+            "type": "String"
+        },
+        "storageAccounts_csukstorage01_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Storage/storageAccounts/csukstorage01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.operationalinsights/workspaces",
+            "apiVersion": "2021-06-01",
+            "name": "[parameters('workspaces_csuk_logs_weurope_name')]",
+            "location": "westeurope",
+            "properties": {
+                "provisioningState": "Succeeded",
+                "sku": {
+                    "name": "pergb2018"
+                },
+                "retentionInDays": 30,
+                "features": {
+                    "enableLogAccessUsingOnlyResourcePermissions": true
+                },
+                "workspaceCapping": {
+                    "dailyQuotaGb": -1
+                },
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/linkedStorageAccounts",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspaces_csuk_logs_weurope_name'), '/alerts')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaces_csuk_logs_weurope_name'))]"
+            ],
+            "properties": {
+                "storageAccountIds": [
+                    "[parameters('storageAccounts_csukstorage01_externalid')]"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/linkedStorageAccounts",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspaces_csuk_logs_weurope_name'), '/customlogs')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaces_csuk_logs_weurope_name'))]"
+            ],
+            "properties": {
+                "storageAccountIds": [
+                    "[parameters('storageAccounts_csukstorage01_externalid')]"
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.OperationalInsights/workspaces/linkedStorageAccounts",
+            "apiVersion": "2020-08-01",
+            "name": "[concat(parameters('workspaces_csuk_logs_weurope_name'), '/query')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('workspaces_csuk_logs_weurope_name'))]"
+            ],
+            "properties": {
+                "storageAccountIds": [
+                    "[parameters('storageAccounts_csukstorage01_externalid')]"
+                ]
+            }
+        }
+        
+    ]
+}

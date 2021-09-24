@@ -1,0 +1,44 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "String"
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "workspaces_csuk_logs_weurope_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.OperationalInsights/workspaces/csuk-logs-weurope",
+            "type": "String"
+        },
+        "sku": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "workspaceName": "[concat(parameters('prefix'), '-logal-', parameters('location'))]"
+    },
+    "resources": [
+        {
+            "type": "microsoft.operationalinsights/workspaces",
+            "apiVersion": "2021-06-01",
+            "name": "[variables('workspaceName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "sku": {
+                    "name": "[parameters('sku')]"
+                },
+                "retentionInDays": 30,
+                "features": {
+                    "enableLogAccessUsingOnlyResourcePermissions": true
+                },
+                "workspaceCapping": {
+                    "dailyQuotaGb": -1
+                },
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+            }
+        }
+    ]
+}
