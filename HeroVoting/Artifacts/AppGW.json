@@ -22,7 +22,7 @@
     "functions": [],
     "variables": {
         "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
-        "subnet": "[concat(parameters('vnet'),'subnets/',parameters('AppGW_Subnet'))]",
+        "subnet": "[concat(parameters('vnet'),'/subnets/',parameters('AppGW_Subnet'))]",
         "appgwpipid": "[concat(parameters('appgwpip'),parameters('prefix'),'-appgw-pip-',parameters('location'))]",
         "AppGWPipName": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]"
     },
