@@ -16,3 +16,10 @@ $params = 'G:\My Drive\Repos\Nordcloud_104\HeroVoting\Artifacts\LogAnalytics.par
 
 New-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
 
+$rg = 'rg-team-5-sep-case-arm-we'
+$loc = 'northeurope'
+$template = 'G:\My Drive\Repos\Nordcloud_104\HeroVoting\Artifacts\Bastion.json'
+$params = 'G:\My Drive\Repos\Nordcloud_104\HeroVoting\Artifacts\Bastion.parameters.json'
+
+New-AzResourceGroupDeployment -name loganalytics -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
+
