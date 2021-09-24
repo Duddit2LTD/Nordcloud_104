@@ -1,0 +1,126 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "loadBalancers_csuk_intlb_api_name": {
+            "defaultValue": "csuk-intlb-api",
+            "type": "String"
+        },
+        "virtualNetworks_CSUK_VNET_Backend_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-Backend",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('loadBalancers_csuk_intlb_api_name')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_csuk_intlb_api_name'), 'csuk-vmss-api-02')]"
+            ],
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "[concat(parameters('loadBalancers_csuk_intlb_api_name'), '-ip')]",
+                        "properties": {
+                            "privateIPAddress": "10.0.2.200",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-API')]"
+                            },
+                            "privateIPAddressVersion": "IPv4"
+                        },
+                        "zones": [
+                            "1",
+                            "2",
+                            "3"
+                        ]
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "csuk-vmss-api-02",
+                        "properties": {
+                            "loadBalancerBackendAddresses": [
+                                {
+                                    "name": "a9e4e9a7-54ae-4ddd-ab6e-fbe4219a0057",
+                                    "properties": {}
+                                },
+                                {
+                                    "name": "cf6d9727-1ee1-42f8-ab44-6e1612df27d4",
+                                    "properties": {}
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "api-lb-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_csuk_intlb_api_name')), concat('/frontendIPConfigurations/', parameters('loadBalancers_csuk_intlb_api_name'), '-ip'))]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false,
+                            "loadDistribution": "Default",
+                            "disableOutboundSnat": true,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancers_csuk_intlb_api_name'), 'csuk-vmss-api-02')]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_csuk_intlb_api_name')), '/probes/api-health-probe')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "api-health-probe",
+                        "properties": {
+                            "protocol": "Http",
+                            "port": 80,
+                            "requestPath": "/",
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "outboundRules": [],
+                "inboundNatPools": []
+            }
+        },
+        {
+            "type": "Microsoft.Network/loadBalancers/backendAddressPools",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(parameters('loadBalancers_csuk_intlb_api_name'), '/csuk-vmss-api-02')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_csuk_intlb_api_name'))]"
+            ],
+            "properties": {
+                "loadBalancerBackendAddresses": [
+                    {
+                        "name": "a9e4e9a7-54ae-4ddd-ab6e-fbe4219a0057",
+                        "properties": {}
+                    },
+                    {
+                        "name": "cf6d9727-1ee1-42f8-ab44-6e1612df27d4",
+                        "properties": {}
+                    }
+                ]
+            }
+        }
+    ]
+}
