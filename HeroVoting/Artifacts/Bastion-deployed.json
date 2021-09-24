@@ -1,0 +1,47 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "bastionHosts_CSUK_Bastion01_name": {
+            "defaultValue": "CSUK-Bastion01",
+            "type": "String"
+        },
+        "publicIPAddresses_CSUK_VNET_Backend_ip_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/publicIPAddresses/CSUK-VNET-Backend-ip",
+            "type": "String"
+        },
+        "virtualNetworks_CSUK_VNET_Backend_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-Backend",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/bastionHosts",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('bastionHosts_CSUK_Bastion01_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Basic"
+            },
+            "properties": {
+                "dnsName": "bst-818c65c5-84e7-4d8a-b31b-38030d1a1a66.bastion.azure.com",
+                "ipConfigurations": [
+                    {
+                        "name": "IpConf",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[parameters('publicIPAddresses_CSUK_VNET_Backend_ip_externalid')]"
+                            },
+                            "subnet": {
+                                "id": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/AzureBastionSubnet')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
