@@ -91,7 +91,7 @@
         }
       }
     },
-        {
+    {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "Bastion",
@@ -106,7 +106,7 @@
         }
       }
     },
-            {
+    {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "ImageGallery",
@@ -118,6 +118,21 @@
         },
         "parametersLink": {
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/SharedImageGallery.parameters.json"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "AppGW",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/AppGW.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/AppGW.parameters.json"
         }
       }
     }
