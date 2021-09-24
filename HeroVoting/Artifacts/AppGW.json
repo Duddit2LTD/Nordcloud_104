@@ -45,7 +45,7 @@
             "type": "Microsoft.Network/applicationGateways",
             "apiVersion": "2020-11-01",
             "dependsOn": [
-                "[variables('AppGWPipName')] "
+                
             ],
             "name": "[variables('AppGWName')]",
             "location": "[parameters('location')]",
