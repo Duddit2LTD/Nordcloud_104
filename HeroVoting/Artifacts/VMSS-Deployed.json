@@ -1,0 +1,352 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachineScaleSets_csuk_vmss_api_02_name": {
+            "defaultValue": "csuk-vmss-api-02",
+            "type": "String"
+        },
+        "galleries_csukvmssimage_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Compute/galleries/csukvmssimage",
+            "type": "String"
+        },
+        "networkSecurityGroups_basicNsgCSUK_VNET_Backend_nic01_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/networkSecurityGroups/basicNsgCSUK-VNET-Backend-nic01",
+            "type": "String"
+        },
+        "virtualNetworks_CSUK_VNET_Backend_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-Backend",
+            "type": "String"
+        },
+        "loadBalancers_csuk_intlb_api_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/loadBalancers/csuk-intlb-api",
+            "type": "String"
+        },
+        "disks_csuk_vmss_api_02_csuk_vmss_api_02_2_OsDisk_1_a5f0b6ccf18446e8a2b4b3537a7d819d_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Compute/disks/csuk-vmss-api-02_csuk-vmss-api-02_2_OsDisk_1_a5f0b6ccf18446e8a2b4b3537a7d819d",
+            "type": "String"
+        },
+        "disks_csuk_vmss_api_02_csuk_vmss_api_02_3_OsDisk_1_5ffa9fa277e84e38bf08195dd1e684f9_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Compute/disks/csuk-vmss-api-02_csuk-vmss-api-02_3_OsDisk_1_5ffa9fa277e84e38bf08195dd1e684f9",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "apiVersion": "2021-03-01",
+            "name": "[parameters('virtualMachineScaleSets_csuk_vmss_api_02_name')]",
+            "location": "westeurope",
+            "sku": {
+                "name": "Standard_D2s_v3",
+                "tier": "Standard",
+                "capacity": 2
+            },
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
+            "properties": {
+                "singlePlacementGroup": false,
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "scaleInPolicy": {
+                    "rules": [
+                        "Default"
+                    ]
+                },
+                "virtualMachineProfile": {
+                    "storageProfile": {
+                        "osDisk": {
+                            "osType": "Linux",
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            },
+                            "diskSizeGB": 30
+                        },
+                        "imageReference": {
+                            "id": "[concat(parameters('galleries_csukvmssimage_externalid'), '/images/csukapiserver/versions/1.0.0')]"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "CSUK-VNET-Backend-nic01",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": false,
+                                    "networkSecurityGroup": {
+                                        "id": "[parameters('networkSecurityGroups_basicNsgCSUK_VNET_Backend_nic01_externalid')]"
+                                    },
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "CSUK-VNET-Backend-nic01-defaultIpConfiguration",
+                                            "properties": {
+                                                "primary": true,
+                                                "subnet": {
+                                                    "id": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-API')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4",
+                                                "loadBalancerBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(parameters('loadBalancers_csuk_intlb_api_externalid'), concat('/backendAddressPools/', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name')))]"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "diagnosticsProfile": {
+                        "bootDiagnostics": {
+                            "enabled": true
+                        }
+                    },
+                    "extensionProfile": {
+                        "extensions": [
+                            {
+                                "name": "DependencyAgentLinux",
+                                "properties": {
+                                    "autoUpgradeMinorVersion": true,
+                                    "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                                    "type": "DependencyAgentLinux",
+                                    "typeHandlerVersion": "9.10"
+                                }
+                            },
+                            {
+                                "name": "OMSAgentForLinux",
+                                "properties": {
+                                    "autoUpgradeMinorVersion": true,
+                                    "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                                    "type": "OmsAgentForLinux",
+                                    "typeHandlerVersion": "1.7",
+                                    "settings": {
+                                        "workspaceId": "7e12ccaa-f11b-4e1e-a449-7955952ae15f",
+                                        "azureResourceId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]",
+                                        "stopOnMultipleConnections": "true"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                "overprovision": true,
+                "doNotRunExtensionsOnOverprovisionedVMs": false,
+                "zoneBalance": false,
+                "platformFaultDomainCount": 5
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "apiVersion": "2021-03-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '/DependencyAgentLinux')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Creating",
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "type": "DependencyAgentLinux",
+                "typeHandlerVersion": "9.10"
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+            "apiVersion": "2021-03-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '/OMSAgentForLinux')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]"
+            ],
+            "properties": {
+                "provisioningState": "Creating",
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                "type": "OmsAgentForLinux",
+                "typeHandlerVersion": "1.7",
+                "settings": {
+                    "workspaceId": "7e12ccaa-f11b-4e1e-a449-7955952ae15f",
+                    "azureResourceId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]",
+                    "stopOnMultipleConnections": "true"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
+            "apiVersion": "2021-03-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '/2')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_D2s_v3",
+                "tier": "Standard"
+            },
+            "zones": [
+                "3"
+            ],
+            "properties": {
+                "networkProfileConfiguration": {
+                    "networkInterfaceConfigurations": [
+                        {
+                            "name": "CSUK-VNET-Backend-nic01",
+                            "properties": {
+                                "primary": true,
+                                "enableAcceleratedNetworking": false,
+                                "networkSecurityGroup": {
+                                    "id": "[parameters('networkSecurityGroups_basicNsgCSUK_VNET_Backend_nic01_externalid')]"
+                                },
+                                "dnsSettings": {
+                                    "dnsServers": []
+                                },
+                                "enableIPForwarding": false,
+                                "ipConfigurations": [
+                                    {
+                                        "name": "CSUK-VNET-Backend-nic01-defaultIpConfiguration",
+                                        "properties": {
+                                            "primary": true,
+                                            "subnet": {
+                                                "id": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-API')]"
+                                            },
+                                            "privateIPAddressVersion": "IPv4",
+                                            "loadBalancerBackendAddressPools": [
+                                                {
+                                                    "id": "[concat(parameters('loadBalancers_csuk_intlb_api_externalid'), '/backendAddressPools/csuk-vmss-api-02')]"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "hardwareProfile": {},
+                "storageProfile": {
+                    "imageReference": {
+                        "id": "[concat(parameters('galleries_csukvmssimage_externalid'), '/images/csukapiserver/versions/1.0.0')]"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "csuk-vmss-api-02_csuk-vmss-api-02_2_OsDisk_1_a5f0b6ccf18446e8a2b4b3537a7d819d",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_csuk_vmss_api_02_csuk_vmss_api_02_2_OsDisk_1_a5f0b6ccf18446e8a2b4b3537a7d819d_externalid')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '2'), '/networkInterfaces/CSUK-VNET-Backend-nic01')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
+            "apiVersion": "2021-03-01",
+            "name": "[concat(parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '/3')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_D2s_v3",
+                "tier": "Standard"
+            },
+            "zones": [
+                "1"
+            ],
+            "properties": {
+                "networkProfileConfiguration": {
+                    "networkInterfaceConfigurations": [
+                        {
+                            "name": "CSUK-VNET-Backend-nic01",
+                            "properties": {
+                                "primary": true,
+                                "enableAcceleratedNetworking": false,
+                                "networkSecurityGroup": {
+                                    "id": "[parameters('networkSecurityGroups_basicNsgCSUK_VNET_Backend_nic01_externalid')]"
+                                },
+                                "dnsSettings": {
+                                    "dnsServers": []
+                                },
+                                "enableIPForwarding": false,
+                                "ipConfigurations": [
+                                    {
+                                        "name": "CSUK-VNET-Backend-nic01-defaultIpConfiguration",
+                                        "properties": {
+                                            "primary": true,
+                                            "subnet": {
+                                                "id": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-API')]"
+                                            },
+                                            "privateIPAddressVersion": "IPv4",
+                                            "loadBalancerBackendAddressPools": [
+                                                {
+                                                    "id": "[concat(parameters('loadBalancers_csuk_intlb_api_externalid'), '/backendAddressPools/csuk-vmss-api-02')]"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                "hardwareProfile": {},
+                "storageProfile": {
+                    "imageReference": {
+                        "id": "[concat(parameters('galleries_csukvmssimage_externalid'), '/images/csukapiserver/versions/1.0.0')]"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "csuk-vmss-api-02_csuk-vmss-api-02_3_OsDisk_1_5ffa9fa277e84e38bf08195dd1e684f9",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_csuk_vmss_api_02_csuk_vmss_api_02_3_OsDisk_1_5ffa9fa277e84e38bf08195dd1e684f9_externalid')]"
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', parameters('virtualMachineScaleSets_csuk_vmss_api_02_name'), '3'), '/networkInterfaces/CSUK-VNET-Backend-nic01')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}
