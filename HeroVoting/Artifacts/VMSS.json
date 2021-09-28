@@ -31,6 +31,9 @@
         },
         "RG": {
             "type": "string"
+        },
+        "instance_Count": {
+            "type": "int"
         }
     },
     "functions": [],
@@ -51,8 +54,12 @@
                 "sku": {
                     "name": "Standard_D2s_v3",
                     "tier": "Standard",
-                    "capacity": 2
+                    "capacity": "[parameters('instance_Count')]"
             },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            
             "zones": [
                 "1",
                 "2",
@@ -69,6 +76,17 @@
                     ]
                 },
                 "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "[concat(parameters('prefix'),'-VMSS-')]",
+                        "linuxConfiguration": {
+                            
+                            "provisionVMAgent": true
+
+                        },
+                        "adminUsername": "APIServeradmin",
+                        "adminPassword": "I1122shouldnotdothis!"
+
+                    },
                     "storageProfile": {
                         "osDisk": {
                             "osType": "Linux",
@@ -77,7 +95,7 @@
                             "managedDisk": {
                                 "storageAccountType": "Premium_LRS"
                             },
-                            "diskSizeGB": 20
+                            "diskSizeGB": 30
 
                         },
                         "imageReference": {
@@ -106,7 +124,7 @@
                                                 "privateIPAddressVersion": "IPv4",
                                                 "loadBalancerBackendAddressPools": [
                                                     {
-                                                        "id": "[concat(variables('LB_String'),'/backendAddressPools/',variables('VMSSNAme'))]"
+                                                        "id": "[concat(variables('LB_String'),'/backendAddressPools/','csuk-vmss-api-02')]"
                                                     }
                                                 ]
                                             }
@@ -121,126 +139,12 @@
                         "bootDiagnostics": {
                             "enabled": true
                         }
-                    },
-                    /*"extensionProfile": {
-                        "extensions": [
-                            {
-                                "name": "DependencyAgentLinux",
-                                "properties": {
-                                    "autoUpgradeMinorVersion": true,
-                                    "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
-                                    "type": "DependencyAgentLinux",
-                                    "typeHandlerVersion": "9.10",
-                                    "settings": {
-
-                                    }
-                                }
-                            },
-                            {
-                                "name": "OMSAgentForLinux",
-                                "properties": {
-                                    "autoUpgradeMinorVersion": true,
-                                    "publisher": "Microsoft.EnterpriseCloud.Monitoring",
-                                    "type": "OmsAgentForLinux",
-                                    "typeHandlerVersion": "1.7",
-                                    "settings": {
-                                        "workspaceId": "7e12ccaa-f11b-4e1e-a449-7955952ae15f",
-                                        "azureResourceId": "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('VMSSNAme'))]",
-                                        "stopOnMultipleConnections": "true"
-                                    }
-                                }
-                            }
-                        ]
-                    }*/
-                    "overprovision": true,
-                    "doNotRunExtensionsOnOverprovisionedVMs": false,
-                    "zoneBalance": false,
-                    "platformFaultDomainCount": 5
-                },
-                
-            "type": "Microsoft.Compute/virtualMachineScaleSets/virtualMachines",
-            "apiVersion": "2021-03-01",
-            "name": "[concat(variables('VMSSNAme'), '/2')]",
-            "location": "westeurope",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachineScaleSets', variables('VMSSNAme'))]"
-            ],
-            "sku": {
-                "name": "Standard_D2s_v3",
-                "tier": "Standard"
-            },
-            "zones": [
-                "3"
-            ],
-            "properties": {
-                "networkProfileConfiguration": {
-                    "networkInterfaceConfigurations": [
-                        {
-                            "name": "CSUK-VNET-Backend-nic01",
-                            "properties": {
-                                "primary": true,
-                                "enableAcceleratedNetworking": false,
-                                /*
-                                "networkSecurityGroup": {
-                                    "id": "[parameters('networkSecurityGroups_basicNsgCSUK_VNET_Backend_nic01_externalid')]"
-                                },
-                                */
-                                "dnsSettings": {
-                                    "dnsServers": []
-                                },
-                                "enableIPForwarding": false,
-                                "ipConfigurations": [
-                                    {
-                                        "name": "CSUK-VNET-Backend-nic01-defaultIpConfiguration",
-                                        "properties": {
-                                            "primary": true,
-                                            "subnet": {
-                                                "id": "[variables('SubnetID')]"
-                                            },
-                                            "privateIPAddressVersion": "IPv4",
-                                            "loadBalancerBackendAddressPools": [
-                                                {
-                                                    "id": "[concat(variables('LB_String'),'/backendAddressPools/',parameters('LB_BE_Pool_Name'))]"
-                                                }
-                                            ]
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                },
-                "hardwareProfile": {},
-                "storageProfile": {
-                    "imageReference": {
-                        "id": "[variables('Full_Image_ID')]"
-                    },
-                    "osDisk": {
-                        "osType": "Linux",
-                        "name": "csuk-vmss-api-02_csuk-vmss-api-02_2_OsDisk_1_a5f0b6ccf18446e8a2b4b3537a7d819d",
-                        "createOption": "FromImage",
-                        "caching": "ReadWrite",
-                        "managedDisk": {
-                            "storageAccountType": "Premium_LRS"
-                            
-                        },
-                        "diskSizeGB": 30
-                    },
-                    "dataDisks": []
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[concat(resourceId('Microsoft.Compute/virtualMachineScaleSets/virtualMachines', variables('VMSSNAme'), '2'), '/networkInterfaces/CSUK-VNET-Backend-nic01')]"
-                        }
-                    ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true
                     }
+
+                   
                 }
-            }
+                
+            
         }
 
         

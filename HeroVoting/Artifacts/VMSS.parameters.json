@@ -32,6 +32,9 @@
       },
       "Subscription": {
           "value": "6c93e868-e85e-45c5-9a6c-ea366a538529"
+      },
+      "instance_Count": {
+          "value": 2
       }
     }
   }
