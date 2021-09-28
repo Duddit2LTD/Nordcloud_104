@@ -34,6 +34,12 @@
         },
         "instance_Count": {
             "type": "int"
+        },
+        "AdminUsername": {
+            "type": "string"
+        },
+        "AdminPassword": {
+            "type": "securestring"
         }
     },
     "functions": [],
@@ -83,8 +89,8 @@
                             "provisionVMAgent": true
 
                         },
-                        "adminUsername": "APIServeradmin",
-                        "adminPassword": "I1122shouldnotdothis!"
+                        "adminUsername": "[parameters('AdminUsername')]",
+                        "adminPassword": "[parameters('AdminPassword')]"
 
                     },
                     "storageProfile": {
@@ -124,7 +130,7 @@
                                                 "privateIPAddressVersion": "IPv4",
                                                 "loadBalancerBackendAddressPools": [
                                                     {
-                                                        "id": "[concat(variables('LB_String'),'/backendAddressPools/','csuk-vmss-api-02')]"
+                                                        "id": "[concat(variables('LB_String'),'/backendAddressPools/',parameters('LB_BE_Pool_Name'))]"
                                                     }
                                                 ]
                                             }
@@ -141,7 +147,7 @@
                         }
                     }
 
-                   
+
                 }
                 
             
