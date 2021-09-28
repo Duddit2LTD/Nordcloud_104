@@ -165,6 +165,21 @@
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/ContainerRegistry.parameters.json"
         }
       }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "VMSS_API_Server",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/VMSS.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/VMSS.parameters.json"
+        }
+      }
     }
   ]
 }

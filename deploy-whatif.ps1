@@ -7,6 +7,8 @@ New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -Templ
 
 New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
 
+New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -TemplateFile $TF -TemplateParameterFile $TFP -WhatIf  
+
 
 
 
