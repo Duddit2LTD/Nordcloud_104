@@ -49,7 +49,7 @@
     },
     "functions": [],
     "variables": {
-        "VMName": "[concat(parameters('prefix'),'DB',parameters('location:'))]",
+        "VMName": "[concat(parameters('prefix'),'-DBServer-',parameters('location:'))]",
         "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]"
     },
     "resources": [

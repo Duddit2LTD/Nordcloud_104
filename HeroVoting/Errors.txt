@@ -90,3 +90,105 @@ deploy-dbvm.sh: 33: deploy-dbvm.sh: ./db/import.sh: not found
 "
 More information on troubleshooting is available at https://aka.ms/VMExtensionCSELinuxTroubleshoot  (Code:VMExtensionProvisioningError)
 CorrelationId: 7def5045-1a88-42cf-9e16-1e317a4b9229
+
+
+
+
+
+
+
+
+
+
+New-AzResourceGroupDeployment: 17:50:58 - The deployment 'MainDeployment' failed with error(s). Showing 1 out of 1 error(s).
+Status Message: VM has reported a failure when processing extension 'config-app'. Error message: "Enable failed: failed to execute command: command terminated with exit status=127
+[stdout]
+com/ubuntu bionic-security/universe amd64 Packages [1138 kB]
+Get:31 http://security.ubuntu.com/ubuntu bionic-security/universe Translation-en [259 kB]
+Get:32 http://security.ubuntu.com/ubuntu bionic-security/multiverse amd64 Packages [20.9 kB]
+Get:33 http://security.ubuntu.com/ubuntu bionic-security/multiverse Translation-en [4732 B]
+Fetched 23.6 MB in 4s (5613 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following package was automatically installed and is no longer required:
+  linux-headers-4.15.0-156
+Use 'sudo apt autoremove' to remove it.
+The following additional packages will be installed:
+  mongodb-org-mongos mongodb-org-server mongodb-org-shell mongodb-org-tools
+Suggested packages:
+  zip
+The following NEW packages will be installed:
+  mongodb-org mongodb-org-mongos mongodb-org-server mongodb-org-shell
+  mongodb-org-tools unzip
+0 upgraded, 6 newly installed, 0 to remove and 17 not upgraded.
+Need to get 87.5 MB of archives.
+After this operation, 306 MB of additional disk space will be used.
+Get:1 http://azure.archive.ubuntu.com/ubuntu bionic-updates/main amd64 unzip amd64 6.0-21ubuntu1.1 [168 kB]
+Get:2 https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6/multiverse amd64 mongodb-org-shell amd64 3.6.23 [8638 kB]
+Get:3 https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6/multiverse amd64 mongodb-org-server amd64 3.6.23 [15.3 MB]
+Get:4 https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6/multiverse amd64 mongodb-org-mongos amd64 3.6.23 [8647 kB]
+Get:5 https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6/multiverse amd64 mongodb-org-tools amd64 3.6.23 [54.7 MB]
+Get:6 https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6/multiverse amd64 mongodb-org amd64 3.6.23 [3518 B]
+Fetched 87.5 MB in 2s (52.0 MB/s)
+Selecting previously unselected package mongodb-org-shell.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 76951 files and directories currently installed.)
+Preparing to unpack .../0-mongodb-org-shell_3.6.23_amd64.deb ...
+Unpacking mongodb-org-shell (3.6.23) ...
+Selecting previously unselected package mongodb-org-server.
+Preparing to unpack .../1-mongodb-org-server_3.6.23_amd64.deb ...
+Unpacking mongodb-org-server (3.6.23) ...
+Selecting previously unselected package mongodb-org-mongos.
+Preparing to unpack .../2-mongodb-org-mongos_3.6.23_amd64.deb ...
+Unpacking mongodb-org-mongos (3.6.23) ...
+Selecting previously unselected package mongodb-org-tools.
+Preparing to unpack .../3-mongodb-org-tools_3.6.23_amd64.deb ...
+Unpacking mongodb-org-tools (3.6.23) ...
+Selecting previously unselected package mongodb-org.
+Preparing to unpack .../4-mongodb-org_3.6.23_amd64.deb ...
+Unpacking mongodb-org (3.6.23) ...
+Selecting previously unselected package unzip.
+Preparing to unpack .../5-unzip_6.0-21ubuntu1.1_amd64.deb ...
+Unpacking unzip (6.0-21ubuntu1.1) ...
+Setting up mongodb-org-shell (3.6.23) ...
+Setting up unzip (6.0-21ubuntu1.1) ...
+Setting up mongodb-org-mongos (3.6.23) ...
+Setting up mongodb-org-tools (3.6.23) ...
+Setting up mongodb-org-server (3.6.23) ...
+Adding system user `mongodb' (UID 111) ...
+Adding new user `mongodb' (UID 111) with group `nogroup' ...
+Not creating home directory `/home/mongodb'.
+Adding group `mongodb' (GID 116) ...
+Done.
+Adding user `mongodb' to group `mongodb' ...
+Adding user mongodb to group mongodb
+Done.
+Setting up mongodb-org (3.6.23) ...
+Processing triggers for mime-support (3.60ubuntu1) ...
+Processing triggers for man-db (2.8.3-2ubuntu0.1) ...
+Archive:  db.zip
+[stderr]
+Warning: apt-key output should not be parsed (stdout is not a terminal)
+gpg: key 58712A2291FA4AD5: public key "MongoDB 3.6 Release Signing Key <packaging@mongodb.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+debconf: unable to initialize frontend: Dialog
+debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
+debconf: falling back to frontend: Readline
+debconf: unable to initialize frontend: Readline
+debconf: (This frontend requires a controlling tty.)
+debconf: falling back to frontend: Teletype
+dpkg-preconfigure: unable to re-open stdin: 
+Created symlink /etc/systemd/system/multi-user.target.wants/mongod.service → /lib/systemd/system/mongod.service.
+  End-of-central-directory signature not found.  Either this file is not
+  a zipfile, or it constitutes one disk of a multi-part archive.  In the
+  latter case the central directory and zipfile comment will be found on
+  the last disk(s) of this archive.
+unzip:  cannot find zipfile directory in one of db.zip or
+        db.zip.zip, and cannot find db.zip.ZIP, period.
+chmod: cannot access './db/import.sh': No such file or directory
+deploy-dbvm.sh: 33: deploy-dbvm.sh: ./db/import.sh: not found
+"
+More information on troubleshooting is available at https://aka.ms/VMExtensionCSELinuxTroubleshoot  (Code:VMExtensionProvisioningError)
+CorrelationId: 5f36f0e5-6479-4855-b03a-8cc0d74c2b52

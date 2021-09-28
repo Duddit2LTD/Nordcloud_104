@@ -10,6 +10,9 @@ New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -Templ
 New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -TemplateFile $TF -TemplateParameterFile $TFP -WhatIf  
 
 
+$template = '.\HeroVoting\Artifacts\DB_Server.json'
+$params = '.\HeroVoting\Artifacts\DB_Server.parameters.json'
+
 
 
 
