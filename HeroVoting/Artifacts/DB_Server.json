@@ -1,0 +1,130 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "prefix": {
+            "type": "string"
+        },
+        "location:": {
+            "type": "string"
+        },
+        "AdminUserName": {
+            "type": "string"
+        },
+        "AdminPassword": {
+            "type": "string"
+        },
+        "VMSize": {
+            "type": "string"
+        },
+        "Subscription": {
+            "type": "string"
+        },
+        "RG": {
+            "type": "string"
+        },
+        "Subnet_Name": {
+            "type": "string"
+        },
+        "VNET_Name": {
+            "type": "string"
+        }
+
+    },
+    "functions": [],
+    "variables": {
+        "VMName": "[concat(parameters('prefix'),'DB',parameters('location:'))]",
+        "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('VMName'),'-nic01')]",
+            "location": "[parameters('location:')]",
+            "properties": {
+                "dnsSettings": {
+                    "dnsServers": [
+
+                    ]
+                },
+                "ipConfigurations": [
+                    {
+                        "name": "IPConf",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[variables('SubnetID')]"
+                            },
+                            "primary": true,
+                            "privateIPAddressVersion": "IPv4"
+                        }
+                    }
+                ],
+                
+                "enableAcceleratedNetworking": true,
+                "enableIPForwarding": false
+                
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2021-03-01",
+            "name": "[variables('VMName')]",
+            "location": "[parameters('location:')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMName'),'-nic01'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('VMSize')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "Canonical",
+                        "offer": "UbuntuServer",
+                        "sku": "18_04-lts-gen2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(variables('VMName'), '_disk1_760c8333a4fa4ad3a132f9d0da90cf8d')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS"
+                            
+                        },
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "adminUsername": "[parameters('AdminUserName')]",
+                    "adminPassword": "[parameters('AdminPassword')]",
+                    "computerName": "[variables('VMName')]",
+                    
+                    "allowExtensionOperations": true
+                    
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMName'),'-nic01'))]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+
+            }
+        }
+    ],
+    "outputs": {}
+}
