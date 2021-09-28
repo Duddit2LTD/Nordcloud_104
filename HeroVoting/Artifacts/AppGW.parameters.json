@@ -9,13 +9,16 @@
         "value": "northeurope" 
     },
     "vnet": {
-        "value":"/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/virtualNetworks/csuk-VNET-FE-northeurope"
+        "value":"csuk-VNET-FE-northeurope"
     },             
-    "appgwpip": {
-        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/publicIPAddresses/"
-    },
     "AppGW_Subnet": {
         "value": "Subnet-AppGW" 
+    },
+    "RG": {
+        "value": "rg-team-5-sep-case-arm-we" 
+    },
+    "Sub": {
+        "value": "6c93e868-e85e-45c5-9a6c-ea366a538529" 
     }
   }
 }
