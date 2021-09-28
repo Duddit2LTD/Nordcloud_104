@@ -28,6 +28,22 @@
         },
         "VNET_Name": {
             "type": "string"
+        },
+        "fileUris": {
+            "defaultValue": "https://csukstorage02.blob.core.windows.net/resources/deploy-dbvm.sh",
+            "type": "string"
+        },
+        "SAS_Token": {
+            "type": "securestring"
+        },
+        "env": {
+            "type": "string"
+        },
+        "StorageAcc": {
+            "type": "string"
+        },
+        "StorageURL": {
+            "type": "string"
         }
 
     },
@@ -78,10 +94,12 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('VMName'),'-nic01'))]"
             ],
+        
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('VMSize')]"
                 },
+            
                 "storageProfile": {
                     "imageReference": {
                         "publisher": "Canonical",
@@ -123,8 +141,45 @@
                     }
                 }
 
-            }
+            },
+            "resources": [
+                {
+                    "apiVersion": "2015-06-15",
+                    "type": "extensions",
+                    "name": "config-app",
+                    "location": "[parameters('location:')]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines', variables('VMName'))]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Azure.Extensions",
+                        "type": "CustomScript",
+                        "typeHandlerVersion": "2.0",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "fileUris": [
+                                "[parameters('fileUris')]"
+                            ]
+                        },
+                        "protectedSettings": {
+                            "commandToExecute": "[concat('sudo sh deploy-dbvm.sh',' -e ',parameters('env'), ' -u ', parameters('StorageURL'),' -s ',parameters('SAS_Token'))]",
+                            "storageAccountKey": "[parameters('SAS_Token')]",
+                            "storageAccountName": "[parameters('StorageAcc')]"
+                        }
+                    }
+                }
+            ]
+            
+
         }
+        
+        
+  
+
+        
+    
+
     ],
+    
     "outputs": {}
 }
