@@ -28,6 +28,14 @@
     },
     "Subscription": {
         "value": "6c93e868-e85e-45c5-9a6c-ea366a538529" 
+    },
+    "DockerRegServerPassword":{
+        "reference": {
+            "keyVault": {
+                "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
+            },
+            "secretName": "DockerServerPassword"
+        }
     }
   }
   }

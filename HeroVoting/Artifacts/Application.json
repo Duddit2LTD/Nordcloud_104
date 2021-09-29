@@ -28,6 +28,9 @@
         },
         "PrivateDNSZoneID": {
             "type": "string"
+        },
+        "DockerRegServerPassword": {
+            "type": "securestring"
         }
     },
     "functions": [],
@@ -92,7 +95,7 @@
                     "appSettings": [
                         {
                             "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
-                            "value": "7a2RNoUN38=3kj0UX1lDhPtwikPHqjW8"
+                            "value": "[parameters('DockerRegServerPassword')]"
                         },
                         {
                             "name": "DOCKER_REGISTRY_SERVER_URL",
