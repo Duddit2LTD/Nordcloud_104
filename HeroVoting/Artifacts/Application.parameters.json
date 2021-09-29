@@ -7,6 +7,18 @@
     },
       "location": {
         "value": "northeurope" 
+    },
+    "subnetName": {
+        "value": "Subnet-BE_ASP_VNINT" 
+    },
+    "VNetName": {
+        "value": "csuk-VNET-BE-northeurope" 
+    },
+    "RG": {
+        "value": "rg-team-5-sep-case-arm-we" 
+    },
+    "Subscription": {
+        "value": "6c93e868-e85e-45c5-9a6c-ea366a538529" 
     }
   }
   }
