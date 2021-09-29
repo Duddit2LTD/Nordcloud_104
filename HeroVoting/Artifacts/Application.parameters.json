@@ -2,20 +2,20 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "prefix": {
+    "prefix": {
         "value": "csuk" 
     },
-      "location": {
+    "location": {
         "value": "northeurope" 
     },
     "PrivateDNSZoneID": {
-        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net" // TODO: Fill in parameter value
+        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net" 
     },
     "subnetName_BE": {
         "value": "Subnet-BE_ASP_VNINT" 
     },
     "subnetName_FE": {
-      "value": "Subnet-PL" 
+        "value": "Subnet-PL" 
     },
     "VNetName_BE": {
         "value": "csuk-VNET-BE-northeurope" 
@@ -37,5 +37,5 @@
             "secretName": "DockerServerPassword"
         }
     }
-  }
-  }
+}
+}

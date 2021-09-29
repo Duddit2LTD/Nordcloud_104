@@ -2,55 +2,55 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      
-      "prefix": {
-          "value": "csuk" 
-      },
-      "location": {
-          "value": "northeurope" 
-      },
-      "ImageGallery_Name": {
-          "value": "csuk_imggal_northeurope"
-      },
-      "VNET_Name": {
-          "value": "csuk-VNET-BE-northeurope" 
-      },
-      "subnet_Name": {
-          "value": "Subnet-BE_APIVMSS"
-      },
-      "LB_Name": {
-          "value": "csuk_api_lb_northeurope"
-      },
-      "LB_BE_Pool_Name":{
-          "value": "csuk-vmss-api-02"
-      },
-      "Image": {
-          "value": "APIServer/versions/1.0.0" 
-      },
-      "RG": {
-          "value": "rg-team-5-sep-case-arm-we"
-      },
-      "Subscription": {
-          "value": "6c93e868-e85e-45c5-9a6c-ea366a538529"
-      },
-      "instance_Count": {
-          "value": 2
-      },
-      "AdminUsername": {
-          "reference": {
-              "keyVault": {
-                  "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
-              },
-              "secretName": "APIServerAdminUsername"
-          }
-      },
-      "AdminPassword": {
-          "reference": {
-              "keyVault": {
-                  "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
-              },
-              "secretName": "APIServerAdminPassword"
-          }
-      }
+        
+        "prefix": {
+            "value": "csuk" 
+        },
+        "location": {
+            "value": "northeurope" 
+        },
+        "ImageGallery_Name": {
+            "value": "csuk_imggal_northeurope"
+        },
+        "VNET_Name": {
+            "value": "csuk-VNET-BE-northeurope" 
+        },
+        "subnet_Name": {
+            "value": "Subnet-BE_APIVMSS"
+        },
+        "LB_Name": {
+            "value": "csuk_api_lb_northeurope"
+        },
+        "LB_BE_Pool_Name":{
+            "value": "csuk-vmss-api-02"
+        },
+        "Image": {
+            "value": "APIServer/versions/1.0.0" 
+        },
+        "RG": {
+            "value": "rg-team-5-sep-case-arm-we"
+        },
+        "Subscription": {
+            "value": "6c93e868-e85e-45c5-9a6c-ea366a538529"
+        },
+        "instance_Count": {
+            "value": 2
+        },
+        "AdminUsername": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
+                },
+                "secretName": "APIServerAdminUsername"
+            }
+        },
+        "AdminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
+                },
+                "secretName": "APIServerAdminPassword"
+            }
+        }
+        }
     }
-  }
