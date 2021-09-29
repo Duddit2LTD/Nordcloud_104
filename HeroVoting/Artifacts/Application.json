@@ -178,7 +178,7 @@
                     "rampUpRules": []
                 },
                 "autoHealEnabled": false,
-                //"vnetName": "f1c8bd63-6cd5-4dc9-91f3-2c4bab58c354_CSUK-Subnet-AS-INT",
+                
                 "vnetRouteAllEnabled": true,
                 "vnetPrivatePortsCount": 0,
                 "localMySqlEnabled": false,
