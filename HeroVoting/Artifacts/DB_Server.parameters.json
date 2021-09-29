@@ -24,13 +24,16 @@
         "value": "Standard_D2s_v3" 
     },
     "env": {
-        "value": "dev" 
+        "value": "prod" 
     },
     "StorageAcc": {
         "value": "csukstorage02" 
     },
     "StorageURL":{
         "value": "https://csukstorage02.blob.core.windows.net/resources"
+    },
+    "fileUris": {
+        "value": "https://csukstorage02.blob.core.windows.net/resources/deploy-dbvm.sh"
     },
     "SAS_Token": {
         "reference": {

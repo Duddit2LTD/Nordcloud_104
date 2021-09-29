@@ -30,7 +30,6 @@
             "type": "string"
         },
         "fileUris": {
-            "defaultValue": "https://csukstorage02.blob.core.windows.net/resources/deploy-dbvm.sh",
             "type": "string"
         },
         "SAS_Token": {
