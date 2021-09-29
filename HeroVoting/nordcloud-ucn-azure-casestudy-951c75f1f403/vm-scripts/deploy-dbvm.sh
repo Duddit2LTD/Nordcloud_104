@@ -23,7 +23,8 @@ if ! systemctl is-active --quiet nginx
         sudo sed -i "s/127.0.0.1/0.0.0.0/" /etc/mongod.conf
         sudo systemctl enable mongod && sudo systemctl start mongod
         sudo curl -sL "${storageBaseUrl}/db.zip${sasToken}" -o db.zip
-        sudo unzip db.zip -d /var/
+        #sudo unzip db.zip -d /var/
+        sudo curl -sL 
         sudo chmod +x /var/db/import.sh
         sudo /var/db/import.sh
     else
