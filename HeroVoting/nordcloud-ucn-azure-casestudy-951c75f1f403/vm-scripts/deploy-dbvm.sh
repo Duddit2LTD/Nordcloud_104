@@ -21,16 +21,20 @@ if ! systemctl is-active --quiet nginx
         sudo apt-get install -y mongodb-org unzip
         sudo sed -i "s/127.0.0.1/0.0.0.0/" /etc/mongod.conf
         sudo systemctl enable mongod && sudo systemctl start mongod
-    else
-        echo "MongoDB already installed.."
-fi
-
-if [ $environment != 'test' ] 
-    then
         curl -sL "${storageBaseUrl}/db.zip${sasToken}" -o db.zip
         unzip db.zip -d .
         chmod +x ./db/import.sh
         ./db/import.sh
     else
-        echo "This is test, not executing db stuff..."
+        echo "MongoDB already installed.."
 fi
+
+# if [ $environment != 'test' ] 
+#     then
+#         curl -sL "${storageBaseUrl}/db.zip${sasToken}" -o db.zip
+#         unzip db.zip -d .
+#         chmod +x ./db/import.sh
+#         ./db/import.sh
+#     else
+#         echo "This is test, not executing db stuff..."
+# fi

@@ -24,13 +24,13 @@
         "value": "Standard_D2s_v3" 
     },
     "env": {
-        "value": "'dev'" 
+        "value": "dev" 
     },
     "StorageAcc": {
         "value": "csukstorage02" 
     },
     "StorageURL":{
-        "value": "'https://csukstorage02.blob.core.windows.net/resources'"
+        "value": "https://csukstorage02.blob.core.windows.net/resources"
     },
     "fileUris": {
         "value": "https://csukstorage02.blob.core.windows.net/resources/deploy-dbvm.sh"
@@ -38,9 +38,17 @@
     "SAS_Token": {
         "reference": {
             "keyVault": {
-                "id": "'/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope'"
+                "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
             },
             "secretName": "SASToken"
+        }
+    },
+    "SAS_ZIP": {
+        "reference":{
+            "keyVault": {
+                "id": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.KeyVault/vaults/csuk-KV-northeurope"
+            },
+            "secretName": "SAS-Zip"
         }
     },
     "StorageKey": {

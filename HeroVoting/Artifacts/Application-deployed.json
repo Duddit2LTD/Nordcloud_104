@@ -1,0 +1,241 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_csuk_as_web_weurope_01_name": {
+            "defaultValue": "csuk-as-web-weurope-01",
+            "type": "String"
+        },
+        "serverfarms_csuk_asplan_web_weurope_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Web/serverfarms/csuk-asplan-web-weurope",
+            "type": "String"
+        },
+        "virtualNetworks_CSUK_VNET_Backend_externalid": {
+            "defaultValue": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-Backend",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2021-01-15",
+            "name": "[parameters('sites_csuk_as_web_weurope_01_name')]",
+            "location": "West Europe",
+            "kind": "app,linux,container",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_csuk_asplan_web_weurope_externalid')]",
+                "reserved": true,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "linuxFxVersion": "DOCKER|csukcntrreg01.azurecr.io/web:latest",
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": true,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 1
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
+                "customDomainVerificationId": "3BCB11EE0F00720F0A0ABB3F505BE002B835C60F301FA7E9BD74C496CF157E79",
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
+                "redundancyMode": "None",
+                "storageAccountRequired": false,
+                "virtualNetworkSubnetId": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-AS-INT')]",
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/ftp')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/scm')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "allow": true
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/web')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "linuxFxVersion": "DOCKER|csukcntrreg01.azurecr.io/web:latest",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
+                "httpLoggingEnabled": false,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$csuk-as-web-weurope-01",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "vnetName": "f1c8bd63-6cd5-4dc9-91f3-2c4bab58c354_CSUK-Subnet-AS-INT",
+                "vnetRouteAllEnabled": true,
+                "vnetPrivatePortsCount": 0,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.0",
+                "ftpsState": "AllAllowed",
+                "preWarmedInstanceCount": 0,
+                "functionAppScaleLimit": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 1,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/', parameters('sites_csuk_as_web_weurope_01_name'), '.azurewebsites.net')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "siteName": "csuk-as-web-weurope-01",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/privateEndpointConnections",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/csuk-pep-appgw-01-8b54-b00d7d78-dec8-4159-a858-1a3551de3a18')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnectionState": {
+                    "status": "Approved",
+                    "actionsRequired": "None"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/2021-09-17T11_45_40_3103216')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/2021-09-17T16_45_41_0921762')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.Web/sites/snapshots",
+            "apiVersion": "2015-08-01",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/2021-09-17T19_45_41_5981342')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ]
+        },
+        
+        {
+            "type": "Microsoft.Web/sites/virtualNetworkConnections",
+            "apiVersion": "2021-01-15",
+            "name": "[concat(parameters('sites_csuk_as_web_weurope_01_name'), '/f1c8bd63-6cd5-4dc9-91f3-2c4bab58c354_CSUK-Subnet-AS-INT')]",
+            "location": "West Europe",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_csuk_as_web_weurope_01_name'))]"
+            ],
+            "properties": {
+                "vnetResourceId": "[concat(parameters('virtualNetworks_CSUK_VNET_Backend_externalid'), '/subnets/CSUK-Subnet-AS-INT')]",
+                "isSwift": true
+            }
+        }
+    ]
+}
