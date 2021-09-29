@@ -1,8 +1,17 @@
+?sp=r&st=2021-09-28T14:13:11Z&se=2021-09-28T22:13:11Z&spr=https&sv=2020-08-04&sr=b&sig=Hq7NPN8mYclo3w5Mqo2%2BCVEidGNz6PzD34%2BM4vbGJCs%3D
+
+U5UkuktF5UHSKroRzDa9inMzvzAIXSmaHlTAE5Yb2G9AOnGfAQirMlLnyTaRmBe74wQnZTeAJTWzV2TY5JZhAw==
+
 wsevfdvfvERvber45345!!devf
 
 APIServerAdmin
 
+"https://csukstorage02.blob.core.windows.net/resources/deploy-dbvm.sh?sp=r&st=2021-09-28T14:13:11Z&se=2021-09-28T22:13:11Z&spr=https&sv=2020-08-04&sr=b&sig=Hq7NPN8mYclo3w5Mqo2%2BCVEidGNz6PzD34%2BM4vbGJCs%3D"
 
 
-sp=r&st=2021-09-28T14:13:11Z&se=2021-09-28T22:13:11Z&spr=https&sv=2020-08-04&sr=b&sig=Hq7NPN8mYclo3w5Mqo2%2BCVEidGNz6PzD34%2BM4vbGJCs%3D
-https://csukstorage02.blob.core.windows.net/resources/db.zip?sp=r&st=2021-09-28T14:13:11Z&se=2021-09-28T22:13:11Z&spr=https&sv=2020-08-04&sr=b&sig=Hq7NPN8mYclo3w5Mqo2%2BCVEidGNz6PzD34%2BM4vbGJCs%3D
+script
+?sp=r&st=2021-09-29T11:46:11Z&se=2021-09-29T19:46:11Z&spr=https&sv=2020-08-04&sr=b&sig=5YE75%2BmcQXM5JUUzkY06yVL%2BXlwyFUuMBSMQDmFpOjg%3D
+
+
+DB
+?sp=r&st=2021-09-29T11:39:10Z&se=2021-10-02T19:39:10Z&spr=https&sv=2020-08-04&sr=b&sig=KumcOuze6O4Zg29AB21nrNyU0%2F2K04AUJ5YNko%2FW4%2BU%3D

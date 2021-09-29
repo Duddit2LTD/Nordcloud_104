@@ -7,27 +7,271 @@
         },
         "prefix": {
             "type": "string"
+        },
+        "subscription": {
+            "type": "string"
+        },
+        "RG": {
+            "type": "string"
+        },
+        "subnetName_BE": {
+            "type": "string"
+        },
+        "subnetName_FE": {
+            "type": "string"
+        },
+        "VNetName_BE": {
+            "type": "string"
+        },
+        "VNetName_FE":{
+            "type": "string"
+        },
+        "PrivateDNSZoneID": {
+            "type": "string"
         }
     },
     "functions": [],
     "variables": {
         "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
         "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
-        "VMSSNAme": "[concat(parameters('prefix'),'-APIvmss-',parameters('location'))]",
-        "DBServerName": "[concat(parameters('prefix'),'-DBServ-',parameters('location'))]"
+        "SubnetString_BE": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_BE'),'/subnets/',parameters('subnetName_BE'))]",
+        "BE_VNetString": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_BE'))]",
+        "SubnetString_FE": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_FE'),'/subnets/',parameters('subnetName_FE'))]",
+        "FE_VNetString": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_FE'))]",
+        "privateEndpoints_Name":"[concat(variables('AppSVCName'),'-PEP')]"
     },
     "resources": [
+        {
+            "type": "Microsoft.Web/serverfarms",
+            "apiVersion": "2020-12-01",
+            "name": "[variables('AppSVCPlanNAme')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "P1v2",
+                "tier": "PremiumV2",
+                "size": "P1v2",
+                "family": "Pv2",
+                "capacity": 1
+            },
+            "kind": "linux",
+            "properties": {
+                "perSiteScaling": false,
+                "elasticScaleEnabled": false,
+                "maximumElasticWorkerCount": 1,
+                "isSpot": false,
+                "reserved": true,
+                "isXenon": false,
+                "hyperV": false,
+                "targetWorkerCount": 0,
+                "targetWorkerSizeId": 0
+            }
+        },
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2020-12-01",
             "name": "[variables('AppSVCName')]",
             "location": "[parameters('location')]",
             "kind": "app,linux,container",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', variables('AppSVCPlanNAme'))]"
+            ],
             "properties": {
                 "enabled": true,
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms',variables('AppSVCPlanNAme'))]",
+                "reserved": true,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {
+                    "numberOfWorkers": 1,
+                    "linuxFxVersion": "DOCKER|csukContRegnortheurope.azurecr.io/web:latest",
+                    "acrUseManagedIdentityCreds": false,
+                    "alwaysOn": true,
+                    "http20Enabled": false,
+                    "functionAppScaleLimit": 0,
+                    "minimumElasticInstanceCount": 1,
+                    "appSettings": [
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                            "value": "7a2RNoUN38=3kj0UX1lDhPtwikPHqjW8"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "https://csukContRegnortheurope.azurecr.io"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                            "value": "csukContRegnortheurope"
+                        },
+                        {
+                            "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                            "value": "false"
+                        }
+                    ]
+                },
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "clientCertMode": "Required",
+                "hostNamesDisabled": false,
                 
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
+                "redundancyMode": "None",
+                "storageAccountRequired": false,
+                "virtualNetworkSubnetId": "[variables('SubnetString_BE')]",
+                "keyVaultReferenceIdentity": "SystemAssigned"
+            }
+        
+
+                
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2020-12-01",
+            "name": "[concat(variables('AppSVCName'), '/web')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]"
+            ],
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "linuxFxVersion": "DOCKER|csukContRegnortheurope.azurecr.io/web:latest",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "remoteDebuggingVersion": "VS2019",
+                "httpLoggingEnabled": false,
+                "acrUseManagedIdentityCreds": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$csukContRegnortheurope",
+                
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": true,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": true
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                //"vnetName": "f1c8bd63-6cd5-4dc9-91f3-2c4bab58c354_CSUK-Subnet-AS-INT",
+                "vnetRouteAllEnabled": true,
+                "vnetPrivatePortsCount": 0,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.2",
+                "scmMinTlsVersion": "1.0",
+                "ftpsState": "AllAllowed",
+                "preWarmedInstanceCount": 0,
+                "functionAppScaleLimit": 0,
+                "functionsRuntimeScaleMonitoringEnabled": false,
+                "minimumElasticInstanceCount": 1,
+                "azureStorageAccounts": {}
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/privateEndpointConnections",
+            "apiVersion": "2020-12-01",
+            "name": "[concat(variables('AppSVCName'),'/',variables('privateEndpoints_Name'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]",
+                "[resourceId('Microsoft.Network/privateEndpoints',variables('privateEndpoints_Name'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnectionState": {
+                    "status": "Approved",
+                    "actionsRequired": "None"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[variables('privateEndpoints_Name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('AppSVCName'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[concat(variables('privateEndpoints_Name'), '-8b54')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]",
+                            "groupIds": [
+                                "sites"
+                            ]
+                            
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[variables('SubnetString_FE')]"
+                },
+                "customDnsConfigs": []
+            }
         }
-    }
+        // {
+        //     "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+        //     "apiVersion": "2020-11-01",
+        //     "name": "[concat(parameters('PrivateDNSZoneID'),'/default')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.Network/privateEndpoints', variables('privateEndpoints_Name'))]"
+        //     ],
+        //     "properties": {
+        //         "privateDnsZoneConfigs": [
+        //             {
+        //                 "name": "privatelink-azurewebsites-net",
+        //                 "properties": {
+        //                     "privateDnsZoneId": "[parameters('PrivateDNSZoneID')]"
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // }
+    
     ],
     "outputs": {}
 }

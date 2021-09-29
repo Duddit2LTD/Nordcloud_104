@@ -47,23 +47,28 @@
       "location": "[parameters('location')]",
       "properties": {
         "addressSpace": {
-           "addressPrefixes": [
-             "[parameters('FE_VNET_IP_Range')]"
-           ]
+          "addressPrefixes": [
+            "[parameters('FE_VNET_IP_Range')]"
+          ]
         },
         "subnets": [
-           {
-             "name": "Subnet-AppGW",
-             "properties": {
-               "addressPrefix": "[parameters('SN_FE_AppGW_Range')]"
+          {
+            "name": "Subnet-AppGW",
+            "properties": {
+              "addressPrefix": "[parameters('SN_FE_AppGW_Range')]",
+              "privateEndpointNetworkPolicies": "Enabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
               }
-           },
-           {
-             "name": "Subnet-PL",
-             "properties": {
-               "addressPrefix": "[parameters('SN_FE_PL_Range')]"
+          },
+          {
+            "name": "Subnet-PL",
+            "properties": {
+              "addressPrefix": "[parameters('SN_FE_PL_Range')]",
+              "privateEndpointNetworkPolicies": "Disabled",
+              "privateLinkServiceNetworkPolicies": "Enabled"
+              
               }
-           }
+          }
         ]
       }
     },
@@ -83,7 +88,15 @@
             {
               "name": "Subnet-BE_ASP_VNINT",
               "properties": {
-                "addressPrefix": "[parameters('SN_BE_ASP_VNINT_Range')]"
+                "addressPrefix": "[parameters('SN_BE_ASP_VNINT_Range')]",
+                "delegations": [
+                  {
+                    "name": "AppSVC",
+                    "properties": {
+                      "serviceName": "Microsoft.Web/serverFarms"
+                    }
+                  }
+                ]
               }
             },
             {
