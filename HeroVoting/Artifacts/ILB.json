@@ -1,0 +1,112 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string"
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "LBPrivateIP": {
+            "type": "string"
+        },
+        "BEVnet": {
+            "type": "string"
+        },
+        "SubnetName": {
+            "type": "string"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "LBName": "[concat(parameters('prefix'),'_api_lb_',parameters('location'))]",
+        "SubnetString": "[concat(parameters('BEVnet'),'/subnets/',parameters('SubnetName'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2020-11-01",
+            "name": "[variables('LBName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard",
+                "tier": "Regional"
+            },
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "[concat(variables('LBName'),'-ip')]",
+                        "properties": {
+                            "privateIPAddress": "[parameters('LBPrivateIP')]",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[variables('SubnetString')]"
+                            },
+                            "privateIPAddressVersion": "IPv4"
+
+                        },
+                        "zones": [
+                            "1",
+                            "2",
+                            "3"
+                        ]
+                    
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "csuk-vmss-api-02",
+                        "properties": {
+                            "loadBalancerBackendAddresses": [
+                                
+                            ]
+                        }
+                    }
+                ],
+                "loadBalancingRules": [
+                    {
+                        "name": "api-lb-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('LBName')), concat('/frontendIPConfigurations/', variables('LBName'), '-ip'))]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "enableFloatingIP": false,
+                            "idleTimeoutInMinutes": 4,
+                            "protocol": "Tcp",
+                            "enableTcpReset": false,
+                            "loadDistribution": "Default",
+                            "disableOutboundSnat": true,
+                            "backendAddressPool": {
+                                "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', variables('LBName'), 'csuk-vmss-api-02')]"
+                            },
+                            "probe": {
+                                "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('LBName')), '/probes/api-health-probe')]"
+                            }
+                        }
+                    }
+                ],
+                "probes": [
+                    {
+                        "name": "api-health-probe",
+                        "properties": {
+                            "protocol": "Http",
+                            "port": 80,
+                            "requestPath": "/",
+                            "intervalInSeconds": 5,
+                            "numberOfProbes": 2
+                        }
+                    }
+                ],
+                "inboundNatRules": [],
+                "outboundRules": [],
+                "inboundNatPools": []
+            }
+
+        }
+        
+    ]
+   
+}

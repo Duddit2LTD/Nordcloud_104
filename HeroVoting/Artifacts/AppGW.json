@@ -11,20 +11,24 @@
         "vnet": {
             "type": "string"
         },
-        "appgwpip": {
+        "AppGW_Subnet": {
             "type": "string"
         },
-        "AppGW_Subnet": {
+        "RG": {
+            "type": "string"
+        },
+        "Sub": {
             "type": "string"
         }
 
     },
     "functions": [],
-    "variables": {
-        "AppGWName": "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
-        "subnet": "[concat(parameters('vnet'),'/subnets/',parameters('AppGW_Subnet'))]",
-        "appgwpipid": "[concat(parameters('appgwpip'),parameters('prefix'),'-appgw-pip-',parameters('location'))]",
-        "AppGWPipName": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]"
+    "variables": {  
+        "AppGWName":    "[concat(parameters('prefix'),'-AppGW-',parameters('location'))]",
+        "subnet":       "[concat(variables('VNET_String'),'/subnets/',parameters('AppGW_Subnet'))]",
+        "appgwpipid":   "[concat('/subscriptions/',parameters('Sub'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/publicIPAddresses/',variables('AppGWPipName'))]",
+        "AppGWPipName": "[concat(parameters('prefix'),'-appgw-pip-',parameters('location'))]",
+        "VNET_String":  "[concat('/subscriptions/',parameters('Sub'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('vnet'))]"
     },
     "resources": [
         {
@@ -36,6 +40,11 @@
                 "name": "Standard",
                 "tier": "Regional"
             },
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
             "properties": {
                 "publicIPAddressVersion": "IPv4",
                 "publicIPAllocationMethod": "Static"
@@ -44,8 +53,11 @@
         {
             "type": "Microsoft.Network/applicationGateways",
             "apiVersion": "2020-11-01",
+            "dependsOn": [
+                
+            ],
             "name": "[variables('AppGWName')]",
-            "location": "westeurope",
+            "location": "[parameters('location')]",
             "zones": [
                 "1",
                 "2",

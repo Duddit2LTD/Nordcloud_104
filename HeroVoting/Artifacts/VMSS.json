@@ -1,0 +1,160 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string"
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "ImageGallery_Name": {
+            "type": "string"
+        },
+        "Image": {
+            "type": "string"
+        },
+        "VNET_Name": {
+            "type": "string"
+        },
+        "subnet_Name": {
+            "type": "string"
+        },
+        "LB_Name": {
+            "type": "string"
+        },
+        "LB_BE_Pool_Name": {
+            "type": "string"
+        },
+        "Subscription": {
+            "type": "string"
+        },
+        "RG": {
+            "type": "string"
+        },
+        "instance_Count": {
+            "type": "int"
+        },
+        "AdminUsername": {
+            "type": "string"
+        },
+        "AdminPassword": {
+            "type": "securestring"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "SubnetID":           "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('subnet_Name'))]",
+        "VMSSNAme":           "[concat(parameters('prefix'),'_VMSS_',parameters('location'))]",
+        "ImageGalleryString": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Compute/galleries/',parameters('ImageGallery_Name'))]",
+        "Full_Image_ID":      "[concat(variables('ImageGalleryString'),'/images/',parameters('Image'))]",
+        "LB_String":          "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/loadBalancers/',parameters('LB_Name'))]"
+        
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "apiVersion": "2021-03-01",
+            "location": "[parameters('location')]",
+            "name": "[variables('VMSSNAme')]",
+                "sku": {
+                    "name": "Standard_D2s_v3",
+                    "tier": "Standard",
+                    "capacity": "[parameters('instance_Count')]"
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            
+            "zones": [
+                "1",
+                "2",
+                "3"
+            ],
+            "properties": {
+                "singlePlacementGroup": false,
+                "upgradePolicy": {
+                    "mode": "Manual"
+                },
+                "scaleInPolicy": {
+                    "rules": [
+                        "Default"
+                    ]
+                },
+                "virtualMachineProfile": {
+                    "osProfile": {
+                        "computerNamePrefix": "[concat(parameters('prefix'),'-VMSS-')]",
+                        "linuxConfiguration": {
+                            
+                            "provisionVMAgent": true
+
+                        },
+                        "adminUsername": "[parameters('AdminUsername')]",
+                        "adminPassword": "[parameters('AdminPassword')]"
+
+                    },
+                    "storageProfile": {
+                        "osDisk": {
+                            "osType": "Linux",
+                            "createOption": "FromImage",
+                            "caching": "ReadWrite",
+                            "managedDisk": {
+                                "storageAccountType": "Premium_LRS"
+                            },
+                            "diskSizeGB": 30
+
+                        },
+                        "imageReference": {
+                            "id": "[variables('Full_Image_ID')]"
+                        }
+                    },
+                    "networkProfile": {
+                        "networkInterfaceConfigurations": [
+                            {
+                                "name": "CSUK-VNET-Backend-nic01",
+                                "properties": {
+                                    "primary": true,
+                                    "enableAcceleratedNetworking": false,
+                                    "dnsSettings": {
+                                        "dnsServers": []
+                                    },
+                                    "enableIPForwarding": false,
+                                    "ipConfigurations": [
+                                        {
+                                            "name": "CSUK-VNET-Backend-nic01-defaultIpConfiguration",
+                                            "properties": {
+                                                "primary": true,
+                                                "subnet": {
+                                                    "id": "[variables('SubnetID')]"
+                                                },
+                                                "privateIPAddressVersion": "IPv4",
+                                                "loadBalancerBackendAddressPools": [
+                                                    {
+                                                        "id": "[concat(variables('LB_String'),'/backendAddressPools/',parameters('LB_BE_Pool_Name'))]"
+                                                    }
+                                                ]
+                                            }
+
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "diagnosticsProfile": {
+                        "bootDiagnostics": {
+                            "enabled": true
+                        }
+                    }
+
+
+                }
+                
+            
+        }
+
+        
+    }
+    ],
+    "outputs": {}
+}
