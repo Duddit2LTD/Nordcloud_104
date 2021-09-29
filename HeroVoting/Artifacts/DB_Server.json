@@ -43,6 +43,9 @@
         },
         "StorageURL": {
             "type": "string"
+        },
+        "StorageKey": {
+            "type": "securestring"
         }
 
     },
@@ -162,7 +165,7 @@
                         },
                         "protectedSettings": {
                             "commandToExecute": "[concat('sudo sh deploy-dbvm.sh',' -e ',parameters('env'), ' -u ', parameters('StorageURL'),' -s ',parameters('SAS_Token'))]",
-                            "storageAccountKey": "[parameters('SAS_Token')]",
+                            "storageAccountKey": "[parameters('StorageKey')]",
                             "storageAccountName": "[parameters('StorageAcc')]"
                         }
                     }
