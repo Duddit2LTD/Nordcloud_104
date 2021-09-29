@@ -1,0 +1,30 @@
+{
+    "status": "Failed",
+    "error": {
+        "code": "InvalidResourceReference",
+        "message": "Resource /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/RG-TEAM-5-SEP-CASE-ARM-WE/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-FE-NORTHEUROPE referenced by resource /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/privateEndpoints/csuk-AppSVC-northeurope-PEP was not found. Please make sure that the referenced resource exists, and that both resources are in the same region.",
+        "details": [
+            {
+                "code": "NotFound",
+                "message": "Resource /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/RG-TEAM-5-SEP-CASE-ARM-WE/providers/Microsoft.Network/virtualNetworks/CSUK-VNET-FE-NORTHEUROPE not found."
+            }
+        ]
+    }
+    
+    {
+        "status": "Failed",
+        "error": {
+            "code": "PrivateEndpointCannotBeCreatedInSubnetThatHasNetworkPoliciesEnabled",
+            "message": "Private endpoint /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/privateEndpoints/csuk-AppSVC-northeurope-PEP cannot be created in a subnet /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/virtualNetworks/csuk-VNET-FE-northeurope/subnets/Subnet-PL since it has private endpoint network policies enabled.",
+            "details": []
+        }
+    }
+
+
+    {
+        "status": "Failed",
+        "error": {
+            "code": "PrivateEndpointCannotBeCreatedInSubnetThatHasNetworkPoliciesEnabled",
+            "message": "Private endpoint /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/privateEndpoints/csuk-AppSVC-northeurope-PEP cannot be created in a subnet /subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/virtualNetworks/csuk-VNET-FE-northeurope/subnets/Subnet-PL since it has private endpoint network policies enabled.",
+            "details": []
+        }

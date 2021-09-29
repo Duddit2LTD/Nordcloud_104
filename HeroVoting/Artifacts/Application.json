@@ -14,10 +14,19 @@
         "RG": {
             "type": "string"
         },
-        "subnetName": {
+        "subnetName_BE": {
             "type": "string"
         },
-        "VNetName": {
+        "subnetName_FE": {
+            "type": "string"
+        },
+        "VNetName_BE": {
+            "type": "string"
+        },
+        "VNetName_FE":{
+            "type": "string"
+        },
+        "PrivateDNSZoneID": {
             "type": "string"
         }
     },
@@ -25,7 +34,11 @@
     "variables": {
         "AppSVCName": "[concat(parameters('prefix'),'-AppSVC-',parameters('location'))]",
         "AppSVCPlanNAme": "[concat(parameters('prefix'),'-AppSVC-Plan-',parameters('location'))]",
-        "SubnetString": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName'),'/subnets/',parameters('subnetName'))]"
+        "SubnetString_BE": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_BE'),'/subnets/',parameters('subnetName_BE'))]",
+        "BE_VNetString": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_BE'))]",
+        "SubnetString_FE": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_FE'),'/subnets/',parameters('subnetName_FE'))]",
+        "FE_VNetString": "[concat('/subscriptions/',parameters('subscription'),'/resourcegroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNetName_FE'))]",
+        "privateEndpoints_Name":"[concat(variables('AppSVCName'),'-PEP')]"
     },
     "resources": [
         {
@@ -75,7 +88,25 @@
                     "alwaysOn": true,
                     "http20Enabled": false,
                     "functionAppScaleLimit": 0,
-                    "minimumElasticInstanceCount": 1
+                    "minimumElasticInstanceCount": 1,
+                    "appSettings": [
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_PASSWORD",
+                            "value": "7a2RNoUN38=3kj0UX1lDhPtwikPHqjW8"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_URL",
+                            "value": "https://csukContRegnortheurope.azurecr.io"
+                        },
+                        {
+                            "name": "DOCKER_REGISTRY_SERVER_USERNAME",
+                            "value": "csukContRegnortheurope"
+                        },
+                        {
+                            "name": "WEBSITES_ENABLE_APP_SERVICE_STORAGE",
+                            "value": "false"
+                        }
+                    ]
                 },
                 "scmSiteAlsoStopped": false,
                 "clientAffinityEnabled": false,
@@ -88,7 +119,7 @@
                 "httpsOnly": false,
                 "redundancyMode": "None",
                 "storageAccountRequired": false,
-                "virtualNetworkSubnetId": "[variables('SubnetString')]",
+                "virtualNetworkSubnetId": "[variables('SubnetString_BE')]",
                 "keyVaultReferenceIdentity": "SystemAssigned"
             }
         
@@ -125,7 +156,8 @@
                 "acrUseManagedIdentityCreds": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
-                "publishingUsername": "$csuk-as-web-weurope-01",
+                "publishingUsername": "$csukContRegnortheurope",
+                
                 "scmType": "None",
                 "use32BitWorkerProcess": true,
                 "webSocketsEnabled": false,
@@ -180,10 +212,11 @@
         {
             "type": "Microsoft.Web/sites/privateEndpointConnections",
             "apiVersion": "2020-12-01",
-            "name": "[concat(variables('AppSVCName'), '/csuk-pep-appgw-01-',uniqueString(resourceGroup().id))]",
+            "name": "[concat(variables('AppSVCName'),'/',variables('privateEndpoints_Name'))]",
             "location": "[parameters('location')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]"
+                "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]",
+                "[resourceId('Microsoft.Network/privateEndpoints',variables('privateEndpoints_Name'))]"
             ],
             "properties": {
                 "privateLinkServiceConnectionState": {
@@ -191,7 +224,53 @@
                     "actionsRequired": "None"
                 }
             }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[variables('privateEndpoints_Name')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', variables('AppSVCName'))]"
+            ],
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[concat(variables('privateEndpoints_Name'), '-8b54')]",
+                        "properties": {
+                            "privateLinkServiceId": "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]",
+                            "groupIds": [
+                                "sites"
+                            ]
+                            
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[variables('SubnetString_FE')]"
+                },
+                "customDnsConfigs": []
+            }
         }
+        // {
+        //     "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+        //     "apiVersion": "2020-11-01",
+        //     "name": "[concat(parameters('PrivateDNSZoneID'),'/default')]",
+        //     "dependsOn": [
+        //         "[resourceId('Microsoft.Network/privateEndpoints', variables('privateEndpoints_Name'))]"
+        //     ],
+        //     "properties": {
+        //         "privateDnsZoneConfigs": [
+        //             {
+        //                 "name": "privatelink-azurewebsites-net",
+        //                 "properties": {
+        //                     "privateDnsZoneId": "[parameters('PrivateDNSZoneID')]"
+        //                 }
+        //             }
+        //         ]
+        //     }
+        // }
     
     ],
     "outputs": {}

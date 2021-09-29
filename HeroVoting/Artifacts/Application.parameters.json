@@ -8,11 +8,20 @@
       "location": {
         "value": "northeurope" 
     },
-    "subnetName": {
+    "PrivateDNSZoneID": {
+        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net" // TODO: Fill in parameter value
+    },
+    "subnetName_BE": {
         "value": "Subnet-BE_ASP_VNINT" 
     },
-    "VNetName": {
+    "subnetName_FE": {
+      "value": "Subnet-PL" 
+    },
+    "VNetName_BE": {
         "value": "csuk-VNET-BE-northeurope" 
+    },
+    "VNetName_FE": {
+        "value": "csuk-VNET-FE-northeurope" 
     },
     "RG": {
         "value": "rg-team-5-sep-case-arm-we" 
