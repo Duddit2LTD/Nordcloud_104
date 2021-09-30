@@ -41,6 +41,9 @@
             "apiVersion": "2020-11-01",
             "name": "[concat(parameters('prefix'),'-bas-',parameters('location'))]",
             "location": "[parameters('location')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('prefix'),'-pip-bas-',parameters('location')))]"
+            ],
             "sku": {
                 "name": "Basic"
             },

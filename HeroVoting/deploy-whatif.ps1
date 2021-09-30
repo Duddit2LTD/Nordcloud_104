@@ -1,8 +1,8 @@
 #Use these to set default variables for main deployment
 $rg = 'rg-team-5-sep-case-arm-we'
 $loc = 'northeurope'
-$template = '.\Deploy.json'
-$params = '.\Deploy.parameters.json'
+$template = '.\HeroVoting\Deploy.json'
+$params = '.\HeroVoting\Deploy.parameters.json'
 
 #Deployment WHAT IF
 New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -TemplateFile $template -TemplateParameterFile $params -WhatIf
