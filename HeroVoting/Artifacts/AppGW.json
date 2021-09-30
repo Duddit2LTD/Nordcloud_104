@@ -107,7 +107,7 @@
                         "properties": {
                             "backendAddresses": [
                                 {
-                                    "fqdn": "csuk-as-web-weurope-01.azurewebsites.net"
+                                    "fqdn": "csuk-appsvc-northeurope.azurewebsites.net"
                                 }
                             ]
                         }
