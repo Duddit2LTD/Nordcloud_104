@@ -60,7 +60,7 @@
     },
     "functions": [],
     "variables": {
-        "VMName": "[concat(parameters('prefix'),'-DBServer01-',parameters('location:'))]",
+        "VMName": "[concat(parameters('prefix'),'-DBServer02-',parameters('location:'))]",
         "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]",
         "ImageGalleryString": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Compute/galleries/',parameters('ImageGallery_Name'))]",
         "Full_Image_ID":      "[concat(variables('ImageGalleryString'),'/images/',parameters('Image'))]"
@@ -154,34 +154,8 @@
                         "enabled": true
                     }
                 }
-            },
-            "resources": [
-                {
-                    "apiVersion": "2015-06-15",
-                    "type": "extensions",
-                    "name": "config-app",
-                    "location": "[parameters('location:')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines', variables('VMName'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Extensions",
-                        "type": "CustomScript",
-                        "typeHandlerVersion": "2.0",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "[parameters('fileUris')]"
-                            ]
-                        },
-                        "protectedSettings": {
-                            "commandToExecute": "[concat('sudo sh deploy-dbvm.sh',' -e ',parameters('env'), ' -u ', parameters('StorageURL'),' -s ',parameters('SAS_ZIP'))]",
-                            "storageAccountKey": "[parameters('StorageKey')]",
-                            "storageAccountName": "[parameters('StorageAcc')]"
-                        }
-                    }
-                }
-            ]
+            }
+            
         }       
     ],
     
