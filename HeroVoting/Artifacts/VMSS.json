@@ -84,11 +84,7 @@
                 "virtualMachineProfile": {
                     "osProfile": {
                         "computerNamePrefix": "[concat(parameters('prefix'),'-VMSS-')]",
-                        "linuxConfiguration": {
-                            
-                            "provisionVMAgent": true
-
-                        },
+                        
                         "adminUsername": "[parameters('AdminUsername')]",
                         "adminPassword": "[parameters('AdminPassword')]"
 
