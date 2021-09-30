@@ -60,7 +60,7 @@
     },
     "functions": [],
     "variables": {
-        "VMName": "[concat(parameters('prefix'),'-DBServer02-',parameters('location:'))]",
+        "VMName": "[concat(parameters('prefix'),'-DBServer01-',parameters('location:'))]",
         "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]",
         "ImageGalleryString": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Compute/galleries/',parameters('ImageGallery_Name'))]",
         "Full_Image_ID":      "[concat(variables('ImageGalleryString'),'/images/',parameters('Image'))]"
