@@ -71,7 +71,7 @@ if [ $environment != 'test' ]
         cd /var/www/api/
         sudo npm install
         
-        PORT='3000' MONGODB_URI="mongodb://$mongoServer:27017/webratings" pm2 start /var/www/api/bin/www --name rating-api
+        PORT='3000' MONGODB_URI="mongodb://10.0.3.5:27017/webratings" pm2 start /var/www/api/bin/www --name rating-api
         pm2 startup
         pm2 save
     else

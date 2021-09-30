@@ -25,7 +25,7 @@
             "value": "csuk-vmss-api-02"
         },
         "Image": {
-            "value": "APIServer/versions/1.0.0" 
+            "value": "APIServer/versions/2.0.0" 
         },
         "RG": {
             "value": "rg-team-5-sep-case-arm-we"
