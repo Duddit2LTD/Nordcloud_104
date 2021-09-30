@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    "prefix": {
+        "value": "csuk" 
+    },
+    "location": {
+        "value": "global" 
+    },
+    "PrivateDNSZoneName": {
+        "value": "privatelink.azurewebsites.net" 
+    },
+    "RG": {
+        "value": "rg-team-5-sep-case-arm-we" 
+    },
+    "Subscription": {
+        "value": "6c93e868-e85e-45c5-9a6c-ea366a538529" 
+    },
+    "VNET-FE": {
+        "value": "csuk-VNET-FE-northeurope" 
+    }
+}
+}

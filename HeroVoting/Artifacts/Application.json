@@ -212,22 +212,7 @@
                 "azureStorageAccounts": {}
             }
         },
-        {
-            "type": "Microsoft.Web/sites/privateEndpointConnections",
-            "apiVersion": "2020-12-01",
-            "name": "[concat(variables('AppSVCName'),'/',variables('privateEndpoints_Name'))]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/sites',variables('AppSVCName'))]",
-                "[resourceId('Microsoft.Network/privateEndpoints',variables('privateEndpoints_Name'))]"
-            ],
-            "properties": {
-                "privateLinkServiceConnectionState": {
-                    "status": "Approved",
-                    "actionsRequired": "None"
-                }
-            }
-        },
+        
         {
             "type": "Microsoft.Network/privateEndpoints",
             "apiVersion": "2020-11-01",
@@ -255,25 +240,25 @@
                 },
                 "customDnsConfigs": []
             }
+        },
+        {
+            "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+            "apiVersion": "2020-11-01",
+            "name": "[concat(variables('privateEndpoints_Name'),'/Default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateEndpoints', variables('privateEndpoints_Name'))]"
+            ],
+            "properties": {
+                "privateDnsZoneConfigs": [
+                    {
+                        "name": "privatelink-azurewebsites-net",
+                        "properties": {
+                            "privateDnsZoneId": "[parameters('PrivateDNSZoneID')]"
+                        }
+                    }
+                ]
+            }
         }
-        // {
-        //     "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
-        //     "apiVersion": "2020-11-01",
-        //     "name": "[concat(parameters('PrivateDNSZoneID'),'/default')]",
-        //     "dependsOn": [
-        //         "[resourceId('Microsoft.Network/privateEndpoints', variables('privateEndpoints_Name'))]"
-        //     ],
-        //     "properties": {
-        //         "privateDnsZoneConfigs": [
-        //             {
-        //                 "name": "privatelink-azurewebsites-net",
-        //                 "properties": {
-        //                     "privateDnsZoneId": "[parameters('PrivateDNSZoneID')]"
-        //                 }
-        //             }
-        //         ]
-        //     }
-        // }
     
     ],
     "outputs": {}

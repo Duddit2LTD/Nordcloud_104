@@ -9,7 +9,7 @@
         "value": "northeurope" 
     },
     "PrivateDNSZoneID": {
-        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-we/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net" 
+        "value": "/subscriptions/6c93e868-e85e-45c5-9a6c-ea366a538529/resourceGroups/rg-team-5-sep-case-arm-we/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net" 
     },
     "subnetName_BE": {
         "value": "Subnet-BE_ASP_VNINT" 

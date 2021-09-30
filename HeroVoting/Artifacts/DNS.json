@@ -1,0 +1,55 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string"
+        },
+        "prefix": {
+            "type": "string"
+        },
+        "PrivateDNSZoneName": {
+            "type": "string"
+        },
+        "RG": {
+            "type": "string"
+        },
+        "Subscription": {
+            "type": "string"
+        },
+        "VNET-FE": {
+            "type": "string"
+        }
+    },
+    "functions": [],
+    "variables": {
+        "VNET_FE_String": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET-FE'))]"
+
+    },
+    "resources": [
+        {
+            "type":"Microsoft.Network/privateDnsZones",
+            "apiVersion": "2018-09-01",
+            "name": "[parameters('PrivateDNSZoneName')]",
+            "location": "[parameters('location')]"
+            
+
+        },
+        {
+            "type": "Microsoft.Network/privateDnsZones/virtualNetworkLinks",
+            "apiVersion": "2018-09-01",
+            "name": "[concat(parameters('PrivateDNSZoneName'), '/fe-link')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/privateDnsZones', parameters('PrivateDNSZoneName'))]"
+            ],
+            "properties": {
+                "registrationEnabled": true,
+                "virtualNetwork": {
+                    "id": "[variables('VNET_FE_String')]"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
