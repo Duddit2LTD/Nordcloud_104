@@ -12,7 +12,7 @@ New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -Templ
 $rg= "rg-team-5-sep-case-arm-we"
 $tagname = "Delete”
 $TagValue = ”Yes”
-Get-AzResource -TagName $tagname -TagValue $TagValue | where{$_.resourcegroupname -eq $rg}| Remove-AzResource -force
+Get-AzResource -TagName $tagname -TagValue $TagValue | where{$_.resourcegroupname -eq $rg}| Remove-AzResource -force -asJob
 
 
 
