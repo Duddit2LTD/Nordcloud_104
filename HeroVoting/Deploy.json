@@ -94,7 +94,9 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "Bastion",
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Network')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -126,7 +128,9 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "AppGW",
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Network')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -142,7 +146,9 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "Int-LB-API",
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Network')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -174,7 +180,10 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2021-04-01",
       "name": "VMSS_API_Server",
-      "dependsOn": [],
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Network')]",
+        "[resourceId('Microsoft.Resources/deployments', 'ImageGallery')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -183,6 +192,59 @@
         },
         "parametersLink": {
           "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/VMSS.parameters.json"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "App_Service",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Continer_Registry')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Application.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/Application.parameters.json"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "DNS",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/DNS.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/DNS.parameters.json"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "DB_Server",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/deployments', 'Network')]",
+        "[resourceId('Microsoft.Resources/deployments', 'ImageGallery')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/DB_Server.json",
+          "contentVersion": "1.0.0.0"
+        },
+        "parametersLink": {
+          "uri": "https://raw.githubusercontent.com/Duddit2LTD/Nordcloud_104/main/HeroVoting/Artifacts/DB_Server.parameters.json"
         }
       }
     }

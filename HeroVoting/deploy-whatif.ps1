@@ -12,8 +12,8 @@ New-AzResourceGroupDeployment -name MainDeployment -ResourceGroupName $rg -Templ
     
 
 #use these to set temp file path variables
-$template = '.\HeroVoting\Artifacts\Application.json'
-$params = '.\HeroVoting\Artifacts\Application.parameters.json'
+$template = '.\HeroVoting\Artifacts\VMSS.json'
+$params = '.\HeroVoting\Artifacts\VMSS.parameters.json'
 
 
 

@@ -49,13 +49,21 @@
         },
         "SAS_ZIP": {
             "type": "securestring"
+        },
+        "Image": {
+            "type": "string"
+        },
+        "ImageGallery_Name": {
+            "type": "string"
         }
 
     },
     "functions": [],
     "variables": {
-        "VMName": "[concat(parameters('prefix'),'-DBServer11-',parameters('location:'))]",
-        "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]"
+        "VMName": "[concat(parameters('prefix'),'-DBServer01-',parameters('location:'))]",
+        "SubnetID": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Network/virtualNetworks/',parameters('VNET_Name'),'/subnets/',parameters('Subnet_Name'))]",
+        "ImageGalleryString": "[concat('/subscriptions/',parameters('Subscription'),'/resourceGroups/',parameters('RG'),'/providers/Microsoft.Compute/galleries/',parameters('ImageGallery_Name'))]",
+        "Full_Image_ID":      "[concat(variables('ImageGalleryString'),'/images/',parameters('Image'))]"
     },
     "resources": [
         {
@@ -73,7 +81,8 @@
                     {
                         "name": "IPConf",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "static",
+                            "privateIPAddress": "10.0.3.5",
                             "subnet": {
                                 "id": "[variables('SubnetID')]"
                             },
@@ -106,15 +115,8 @@
                 },
             
                 "storageProfile": {
-                    "imageReference": {
-                        "publisher": "Canonical",
-                        "offer": "UbuntuServer",
-                        "sku": "18_04-lts-gen2",
-                        "version": "latest"
-                    },
                     "osDisk": {
                         "osType": "Linux",
-                        "name": "[concat(variables('VMName'), '_disk1_760c8333a4fa4ad3a132f9d0da90cf8d')]",
                         "createOption": "FromImage",
                         "caching": "ReadWrite",
                         "managedDisk": {
@@ -123,13 +125,20 @@
                         },
                         "diskSizeGB": 30
                     },
-                    "dataDisks": []
+                    "imageReference": {
+                        "id": "[variables('Full_Image_ID')]"
+                    }
+                    
                 },
                 "osProfile": {
                     "adminUsername": "[parameters('AdminUserName')]",
                     "adminPassword": "[parameters('AdminPassword')]",
                     "computerName": "[variables('VMName')]",
-                    
+                    "linuxConfiguration": {
+                            
+                            "provisionVMAgent": true
+
+                        },
                     "allowExtensionOperations": true
                     
                 },

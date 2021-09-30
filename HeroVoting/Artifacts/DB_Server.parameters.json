@@ -26,6 +26,12 @@
     "env": {
         "value": "dev" 
     },
+    "Image": {
+        "value": "CSUK_DB_Server/versions/1.0.0" 
+    },
+    "ImageGallery_Name": {
+        "value": "csuk_imggal_northeurope" 
+    },
     "StorageAcc": {
         "value": "csukstorage02" 
     },

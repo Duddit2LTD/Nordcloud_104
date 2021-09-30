@@ -182,7 +182,7 @@
                 "privateLinkConfigurations": [],
                 "webApplicationFirewallConfiguration": {
                     "enabled": true,
-                    "firewallMode": "Detection",
+                    "firewallMode": "Prevention",
                     "ruleSetType": "OWASP",
                     "ruleSetVersion": "3.2",
                     "disabledRuleGroups": [],

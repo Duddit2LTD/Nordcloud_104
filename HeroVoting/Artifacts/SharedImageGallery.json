@@ -7,6 +7,10 @@
         },
         "prefix": {
             "type": "string"
+        },
+        "galleries_csuk_imggal_northeurope_name": {
+            "defaultValue": "csuk_imggal_northeurope",
+            "type": "String"
         }
     },
     "functions": [],
@@ -18,6 +22,161 @@
             "name": "[concat(parameters('prefix'),'_imggal_',parameters('location'))]",
             "location": "[parameters('location')]",
             "properties": {}
+        },
+        {
+            "type": "Microsoft.Compute/galleries/images",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('galleries_csuk_imggal_northeurope_name'), '/APIServer')]",
+            "location": "northeurope",
+            "properties": {
+                "hyperVGeneration": "V1",
+                "osType": "Linux",
+                "osState": "Generalized",
+                "identifier": {
+                    "publisher": "Linux",
+                    "offer": "APIServer",
+                    "sku": "1.0.0"
+                },
+                "recommended": {
+                    "vCPUs": {
+                        "min": 1,
+                        "max": 16
+                    },
+                    "memory": {
+                        "min": 1,
+                        "max": 32
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/galleries/images",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('galleries_csuk_imggal_northeurope_name'), '/CSUK_DB_Server')]",
+            "location": "westeurope",
+            "properties": {
+                "hyperVGeneration": "V1",
+                "osType": "Linux",
+                "osState": "Generalized",
+                "identifier": {
+                    "publisher": "Linux",
+                    "offer": "Ubuntu",
+                    "sku": "18.04"
+                },
+                "recommended": {
+                    "vCPUs": {
+                        "min": 1,
+                        "max": 16
+                    },
+                    "memory": {
+                        "min": 1,
+                        "max": 32
+                    }
+                }
+            }
+        },
+
+
+
+
+
+        {
+            "type": "Microsoft.Compute/galleries/images/versions",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('galleries_csuk_imggal_northeurope_name'), '/APIServer/1.0.0')]",
+            "location": "westeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/galleries/images', parameters('galleries_csuk_imggal_northeurope_name'), 'APIServer')]"
+            ],
+            "properties": {
+                "publishingProfile": {
+                    "targetRegions": [
+                        {
+                            "name": "West Europe",
+                            "regionalReplicaCount": 1,
+                            "storageAccountType": "Standard_ZRS"
+                        },
+                        {
+                            "name": "North Europe",
+                            "regionalReplicaCount": 1,
+                            "storageAccountType": "Standard_ZRS"
+                        }
+                    ],
+                    "replicaCount": 1,
+                    "excludeFromLatest": false,
+                    "storageAccountType": "Standard_LRS"
+                },
+                "storageProfile": {
+                    "osDiskImage": {
+                        "hostCaching": "None"
+                        // "source": {
+                        //     "id": "[parameters('snapshots_csuk_api_image_externalid')]"
+                        // }
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/galleries/images/versions",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('galleries_csuk_imggal_northeurope_name'), '/APIServer/2.0.0')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/galleries/images', parameters('galleries_csuk_imggal_northeurope_name'), 'APIServer')]"
+            ],
+            "properties": {
+                "publishingProfile": {
+                    "targetRegions": [
+                        {
+                            "name": "North Europe",
+                            "regionalReplicaCount": 1,
+                            "storageAccountType": "Standard_ZRS"
+                        }
+                    ],
+                    "replicaCount": 1,
+                    "excludeFromLatest": false,
+                    "storageAccountType": "Standard_LRS"
+                },
+                "storageProfile": {
+                    "osDiskImage": {
+                        "hostCaching": "None"
+                        // "source": {
+                        //     "id": "[parameters('snapshots_APIsnap_externalid')]"
+                        // }
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/galleries/images/versions",
+            "apiVersion": "2020-09-30",
+            "name": "[concat(parameters('galleries_csuk_imggal_northeurope_name'), '/CSUK_DB_Server/1.0.0')]",
+            "location": "northeurope",
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/galleries/images', parameters('galleries_csuk_imggal_northeurope_name'), 'CSUK_DB_Server')]"
+            ],
+            "properties": {
+                "publishingProfile": {
+                    "targetRegions": [
+                        {
+                            "name": "North Europe",
+                            "regionalReplicaCount": 1,
+                            "storageAccountType": "Standard_ZRS"
+                        }
+                    ],
+                    "replicaCount": 1,
+                    "excludeFromLatest": false,
+                    "storageAccountType": "Standard_LRS"
+                },
+                "storageProfile": {
+                    "osDiskImage": {
+                        "hostCaching": "None"
+                        // "source": {
+                        //     "id": "[parameters('snapshots_CSUK_Team5_DB_Snap01_externalid')]"
+                        // }
+                    }
+                }
+            }
         }
     ],
     "outputs": {}
